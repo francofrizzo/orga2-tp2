@@ -35,6 +35,17 @@ void blur_c (
     float sigma,
     int radius)
 {
+  /*  
+    manuuuu esto seguro que esta mal, pero me aburria y me puse un ratito:
+        if (radius < filas / 2 && radius < cols / 2) {
+        float* matConv = matrizDeConvolucion(sigma, radius)
+        float (*res_matrix)[r * 2 + 1] = (float (*)[r * 2 + 1]) matConv;
+        for(int l = radius; l <= cols - (radius + 1); l ++)
+            for(int h = radius; h <= filas - (radius + 1); h ++)
+    */            
+        }
+
+
     unsigned char (*src_matrix)[cols*4] = (unsigned char (*)[cols*4]) src;
     unsigned char (*dst_matrix)[cols*4] = (unsigned char (*)[cols*4]) dst;
 
