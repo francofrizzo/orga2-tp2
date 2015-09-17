@@ -35,9 +35,9 @@ void afectarPixel(unsigned char *src, unsigned char *dst, float* matConv, int l,
 
     for(int i = 0; i <= 2 * radius; i++){
         for(int j = 0; j <= 2 * radius * 4; j = j + 4){
-           sumaAzul = sumaAzul + src_matrix[l - radius + i][h - radius + j] * matConv_matrix[i][j / 4];
-           sumaVerde = sumaVerde + src_matrix[l - radius + i][h - radius + j + 1] * matConv_matrix[i][j / 4];
-           sumaRojo = sumaRojo + src_matrix[l - radius + i][h - radius + j + 2] * matConv_matrix[i][j / 4];
+           sumaAzul = sumaAzul + src_matrix[l - radius + i][h - radius * 4 + j] * matConv_matrix[i][j / 4];
+           sumaVerde = sumaVerde + src_matrix[l - radius + i][h - radius * 4 + j + 1] * matConv_matrix[i][j / 4];
+           sumaRojo = sumaRojo + src_matrix[l - radius + i][h - radius * 4 + j + 2] * matConv_matrix[i][j / 4];
 
         }
     }
