@@ -15,7 +15,7 @@ section .text
 	;int filas,
 	;int cols)
 
-_diff_asm:
+; _diff_asm:
 diff_asm:
 
     ; rdi = src
