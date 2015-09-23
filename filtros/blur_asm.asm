@@ -114,3 +114,35 @@ shl r8, 2 ; r8 * 4
 	ret
 
 
+afectarPixel_asm:
+; void afectarPixel(unsigned char *src, unsigned char *dst, float* matConv, int l, int h, int radius, int cols)
+; rdi = primera img
+; rsi = img salida
+; rdx = matConv
+; rcx = l
+; r8 = h
+; r9 = radio
+; ... = cols
+
+
+
+push rbp
+mov rbp, rsp
+push r12
+push r13
+push r14
+push r15
+
+;mov r12, rdi + cols * l + h * 4; r12 esta apuntando al pixel a aefctar
+;mov r13, r12 - radio - radio * cant columnas ; r13 esta apuntando al primer pixel que tengo que usar para afectarlo
+
+
+
+
+
+pop r15
+pop r14
+pop r13
+pop r12
+pop rbp
+ret
