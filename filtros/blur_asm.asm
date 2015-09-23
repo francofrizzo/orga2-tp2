@@ -1,4 +1,4 @@
-default rel
+  default rel
 global _blur_asm
 global blur_asm
 
@@ -123,9 +123,9 @@ afectarPixel_asm:
 ; rcx = l
 ; r8 = h
 ; r9 = radio
-; ... = cols
 
-
+pop r10
+; r10 = cols
 
 push rbp
 mov rbp, rsp
@@ -134,12 +134,102 @@ push r13
 push r14
 push r15
 
-;mov r12, rdi + cols * l + h * 4; r12 esta apuntando al pixel a aefctar
+;mov r12, rdi + cols * l + h * 4; r12 esta apuntando al pixel a aefctar en la matriz entrada
 ;mov r13, r12 - radio - radio * cant columnas ; r13 esta apuntando al primer pixel que tengo que usar para afectarlo
+;mov r14, rsi + cols * l + h * 4; r14 esta apuntando al pixel a aefctar en la matriz salida
+
+mov r11, r9 
+shl r11, 1
+inc r11 
+;mul r11, r11		; mov r11, (radio*2 + 1)²
+
+mov r15, r9 
+shl r15, 1
+inc r15 ; mov r15, (radio*2 + 1)
+
+pxor xmm6, xmm6 ;tenemos la suma de los pixels multiplicados
+pxor xmm7, xmm7
+
+.ciclo1:
+	cmp r11, 0 ;r11 es el contador
+	je .yaRecorriLaImagen
+	cmp r15, 4 ;r15 es el contador
+	jl .cuantosPixelsQuedan? ;caso borde, me quedan menos que 4 
+
+
+	movdqu xmm0, [r13] ;copiamos los 4 pixels de la imagen de entrada en xmm0
+	movdqu xmm1, [rdx] ;copiamos los 4 valores de la matriz de convolucion 
+	movdqu xmm2, xmm0 ;usamos xmm2 y dejamos los 4 pixels en xmm0 para no perderlos
+	
+	;primer pixel:
+	
+	punpcklbw xmm2, xmm7 
+	movdqu xmm4, xmm2 
+	punpcklwd xmm2, xmm7 
+	punpckhwd xmm4, xmm7 ;xmm4 tenemos el segundo pixel extendido de xmm0
+
+	pshufd xmm1, xmm3, 0x00 ;en xmm3 pusimos el primer valor de xmm1(matriz de conv) 4 veces
+	mulps xmm2, xmm3 ;pisamos el pixel con la multiplicacion
+	addps xmm6, xmm2 ;sumamos el pixel 
+
+	;segundo pixel:
+	
+	pshufd xmm1, xmm3, 01010101 ;en xmm3 pusimos el segundo valor de xmm1(matriz de conv) 4 veces
+	mulps xmm4, xmm3 ;en xmm4 tenemos el segundo pixel luego de la multiplicacion
+	addps xmm6, xmm4 ;sumamos el pixel
+
+	;tercer pixel:
+
+	punpckhbw xmm2, xmm7
+	movdqu xmm4, xmm2
+	punpcklwd xmm2, xmm7 
+	punpckhwd xmm4, xmm7 ;en xmm4 tenemos el 4to pixel extendido de xmm0
+
+	pshufd xmm1, xmm3, 10101010 
+	mulps xmm2, xmm3
+	addps xmm6, xmm2
+
+	;cuarto pixel
+
+	pshufd xmm1, xmm3, 11111111
+	mulps xmm4, xmm3
+	addps xmm6, xmm4
+
+	;avanzamos
+	add r13, 16
+	add rdx, 16
+	sub r15, 4
+	sub r11, 4
+	jmp .ciclo1
+
+.cuantosPixelsQuedan?:
+	cmp r15, 0
+	je .noQuedaNada
+	cmp r15, 1
+	je .quedaUno
+	cmp r15, 2
+	je .quedanDos
+	jmp .quedanTres
+
+
+.noQuedaNada:
+	mov r8, r9 ;r9 tiene el radio
+	shl r8, 1 
+	inc r8 ; r8 = radio * 2 + 1
+	mov r12, r10
+	sub r12, r8
+	shl r12, 2 ; r12 = (cantCols - (radios * 2 + 1) ) * 4
+
+	add r13, r12
+	mov r15, r8
+	jmp .ciclo1
+
+.quedaUno:
+	
 
 
 
-
+;PONER EN 255!!!!!!!!!!!!!!!!
 
 pop r15
 pop r14
