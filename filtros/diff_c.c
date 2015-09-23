@@ -61,9 +61,9 @@ void diff_c (
 
 			unsigned char diff = max_3(b_diff, g_diff, r_diff);
 
-			dst_matrix[i][j] = diff;
-			dst_matrix[i][j+1] = diff;
-			dst_matrix[i][j+2] = diff;
+			dst_matrix[i][j] = b_diff;
+			dst_matrix[i][j+1] = g_diff;
+			dst_matrix[i][j+2] = r_diff;
 			dst_matrix[i][j+3] = 255;
 		}
 	}

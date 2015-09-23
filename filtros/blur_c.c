@@ -21,6 +21,7 @@ float (*res_matrix)[radius * 2 + 1] = (float (*)[radius * 2 + 1]) res;
 			res_matrix[i][j] = funcionGaussiana(sigma, radius, i, j);
 		}
 	}
+
 return res;
 }
 
