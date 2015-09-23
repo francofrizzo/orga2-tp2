@@ -54,14 +54,14 @@ dst_matrix[l][h + 3] = 255;
 
 void blur_c(unsigned char *src, unsigned char *dst, int cols, int filas, float sigma, int radius) {
 
- unsigned char (*src_matrix)[cols*4] = (unsigned char (*)[cols*4]) src;
- unsigned char (*dst_matrix)[cols*4] = (unsigned char (*)[cols*4]) dst;
+ //unsigned char (*src_matrix)[cols*4] = (unsigned char (*)[cols*4]) src;
+ //unsigned char (*dst_matrix)[cols*4] = (unsigned char (*)[cols*4]) dst;
 
     if (radius < filas / 2 && radius < cols / 2) {
         float* matConv = matrizDeConvolucion(sigma, radius);
-        float (*res_matrix)[radius * 2 + 1] = (float (*)[radius * 2 + 1]) matConv;
-        for(int l = radius; l <= cols - (radius + 1); l ++) {
-            for(int h = radius * 4; h <= (filas - (radius + 1)) * 4; h = h + 4) {
+        //float (*res_matrix)[radius * 2 + 1] = (float (*)[radius * 2 + 1]) matConv;
+        for(int l = radius; l <= filas - (radius + 1); l ++) { //aca decia cols y no filas
+            for(int h = radius * 4; h <= (cols - (radius + 1)) * 4; h = h + 4) { //aca decia filas y no cols
                 afectarPixel(src, dst, matConv, l, h, radius, cols);
             }
         }
