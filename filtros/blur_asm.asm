@@ -87,7 +87,7 @@ shl r8, 2 ; r8 * 4
 		push r11
 		push r15
 
-		call afectarPixel
+		call afectarPixel 
 		
 		pop r15
 		pop r11
@@ -134,9 +134,35 @@ push r13
 push r14
 push r15
 
+mov r11, rdx
+
+
+mov rax, r10
+mul rcx
+; en rax tengo (cols * l)
+shl r8, 2
+;en r8 tengo (h*4)
+add r8, rax
+;en r8 tengo (cols * l + h * 4)
+mov r12, rdi
+add r12, r8
 ;mov r12, rdi + cols * l + h * 4; r12 esta apuntando al pixel a aefctar en la matriz entrada
-;mov r13, r12 - radio - radio * cant columnas ; r13 esta apuntando al primer pixel que tengo que usar para afectarlo
+
+mov r14, rsi
+add r14, r8
 ;mov r14, rsi + cols * l + h * 4; r14 esta apuntando al pixel a aefctar en la matriz salida
+
+mov rax, r10
+mul r9
+mov r8, rax 
+mov r13, r12
+sub r13, r9
+sub r13, r8
+;mov r13, r12 - radio - radio * cant columnas ; r13 esta apuntando al primer pixel que tengo que usar para afectarlo
+
+mov rdx, r11
+
+mov r8, rdx ;guardamos el puntero a la matriz de convolucion 
 
 mov r11, r9 
 shl r11, 1
@@ -151,7 +177,7 @@ pxor xmm6, xmm6 ;tenemos la suma de los pixels multiplicados
 pxor xmm7, xmm7
 
 .ciclo1:
-	cmp r11, 0 ;r11 es el contador
+	cmp r11, 0 ;r11 es el contador, se fija si ya recorrimos toda la imagen
 	je .yaRecorriLaImagen
 	cmp r15, 4 ;r15 es el contador
 	jl .cuantosPixelsQuedan? ;caso borde, me quedan menos que 4 
@@ -168,7 +194,7 @@ pxor xmm7, xmm7
 	punpcklwd xmm2, xmm7 
 	punpckhwd xmm4, xmm7 ;xmm4 tenemos el segundo pixel extendido de xmm0
 
-	pshufd xmm1, xmm3, 0x00 ;en xmm3 pusimos el primer valor de xmm1(matriz de conv) 4 veces
+	pshufd xmm1, xmm3, 00000000 ;en xmm3 pusimos el primer valor de xmm1(matriz de conv) 4 veces
 	mulps xmm2, xmm3 ;pisamos el pixel con la multiplicacion
 	addps xmm6, xmm2 ;sumamos el pixel 
 
@@ -196,40 +222,160 @@ pxor xmm7, xmm7
 	addps xmm6, xmm4
 
 	;avanzamos
-	add r13, 16
-	add rdx, 16
+	add r13, 16 ;4 pixels
+	add rdx, 16 ;4 floats de la matriz de conv
 	sub r15, 4
 	sub r11, 4
 	jmp .ciclo1
 
 .cuantosPixelsQuedan?:
-	cmp r15, 0
-	je .noQuedaNada
+;	cmp r15, 0
+;	je .noQuedaNada
 	cmp r15, 1
 	je .quedaUno
-	cmp r15, 2
-	je .quedanDos
+;	cmp r15, 2
+;	je .quedanDos
 	jmp .quedanTres
 
 
-.noQuedaNada:
-	mov r8, r9 ;r9 tiene el radio
-	shl r8, 1 
-	inc r8 ; r8 = radio * 2 + 1
-	mov r12, r10
-	sub r12, r8
-	shl r12, 2 ; r12 = (cantCols - (radios * 2 + 1) ) * 4
+; .noQuedaNada:
+; 	mov r8, r9 ;r9 tiene el radio
+; 	shl r8, 1 
+; 	inc r8 ; r8 = radio * 2 + 1
+; 	mov r12, r10
+; 	sub r12, r8
+; 	shl r12, 2 ; r12 = (cantCols - (radios * 2 + 1) ) * 4
 
-	add r13, r12
-	mov r15, r8
-	jmp .ciclo1
+; 	add r13, r12
+; 	mov r15, r8
+; 	jmp .ciclo1
 
 .quedaUno:
+	movdqu xmm0, [r13]
+	punpcklbw xmm0, xmm7 
+	punpcklwd xmm0, xmm7
+
+	;cmp r8, r13 ;en r8 esta el puntero al primero de la matriz de conv. 
+	;je .esElPrimeroDeMatConv
+
+	sub rdx, 3
+	movdqu xmm1, [rdx]
+	pshufw xmm1, 11111111 ;revisar
+	mulps xmm1, xmm0
+	addps xmm6, xmm1
+
+	dec r11 ;r11 es el contador, se fija si ya recorrimos toda la imagen
+
+	mov rax, r9 ;r9 tiene el radio
+ 	shl rax, 1 
+ 	inc rax ; rax = radio * 2 + 1
+ 	mov r15, rax
+
+ 	mov r12, r10
+ 	sub r12, rax
+ 	shl r12, 2 ; r12 = (cantCols - (radios * 2 + 1) ) * 4
+
+ 	add r13, r12
+
+
+ 	add rdx, 16 ; avanzamos 4 valores de la matriz de conv porque antes restamos 3 
+
+ 	jmp .ciclo1
+
+ ; .esElPrimeroDeMatConv:
 	
+	; movdqu xmm1, [rdx]
+	; pshufw xmm1, 00000000 ;revisar
+	; mulps xmm1, xmm0
+	; addps xmm6, xmm1
+
+	; dec r11 ;r11 es el contador, se fija si ya recorrimos toda la imagen
+
+	; mov rax, r9 ;r9 tiene el radio
+ ; 	shl rax, 1 
+ ; 	inc rax ; rax = radio * 2 + 1
+ ; 	mov r15, rax ;r15 es un contador, se fija si ya recorrimos toda la fila
+
+.quedanTres:
+	movdqu xmm0, [r13]
+	movdqu xmm2, xmm0
+	punpcklbw xmm0, xmm7  
+	movdqu xmm1, xmm0
+	punpckhwd xmm1, xmm7 ;en xmm1 esta el pixel 2 
+	punpcklwd xmm0, xmm7 ;en xmm0 esta el pixel 1
+	punpckhbw xmm2, xmm7 
+	punpcklwd xmm2, xmm7 ;en xmm2 esta el pixel 3
+
+	cmp r8, r13 ;en r8 esta el puntero al primero de la matriz de conv. 
+	je .esElPrimeroDeMatConv	
+
+	sub rdx, 4 
+	movdqu xmm3, [rdx]
+	pshufw xmm4, xmm3, 11111111 ;en xmm4 esta 4 veces el valor 3
+	mulps xmm4, xmm2 ;multiplicamos pixel 3
+	addps xmm6, xmm4 ;sumamos pixel 3
+
+	pshufw xmm4, xmm3, 10101010 ;en xmm4 esta 4 veces el valor 2
+	mulps xmm4, xmm1 ;multiplicamos pixel 2
+	addps xmm6, xmm4 ;sumamos pixel 2
+
+	pshufw xmm4, xmm3, 01010101 ;en xmm4 esta 4 veces el valor 1
+	mulps xmm4, xmm0 ;multiplicamos pixel 1
+	addps xmm6, xmm4 ;sumamos pixel 1
+
+	sub r11, 3 ;r11 es el contador, se fija si ya recorrimos toda la imagen
+
+	mov rax, r9 ;r9 tiene el radio
+ 	shl rax, 1 
+ 	inc rax ; rax = radio * 2 + 1
+ 	mov r15, rax ;r15 se fija si ya recorrimos la fila
+
+ 	mov r12, r10
+ 	sub r12, rax
+ 	shl r12, 2 ; r12 = (cantCols - (radios * 2 + 1) ) * 4
+
+ 	add r13, r12
+
+ 	add rdx, 16
+
+ 	jmp .ciclo1
+
+.esElPrimeroDeMatConv:
+	movdqu xmm3, [rdx]
+	pshufw xmm4, xmm3, 10101010 ;en xmm4 esta 4 veces el valor 3
+	mulps xmm4, xmm2 ;multiplicamos pixel 3
+	addps xmm6, xmm4 ;sumamos el pixel 3
+
+	pshufw xmm4, xmm3, 01010101 ;en xmm4 esta 4 veces el valor 2
+	mulps xmm4, xmm1 ;multiplicamos el pixel 2
+	addps xmm6, xmm4 
+
+	pshufw xmm4, xmm3, 00000000 ;en xmm4 esta 4 veces el valor 1
+	mulps xmm4, xmm0 ;multiplicamos pixel 1
+	addps xmm6, xmm4
+
+	sub r11, 3 ;r11 es el contador, se fija si ya recorrimos toda la imagen
+
+	mov rax, r9 ;r9 tiene el radio
+ 	shl rax, 1 
+ 	inc rax ; rax = radio * 2 + 1
+ 	mov r15, rax ;r15 se fija si ya recorrimos la fila
+
+ 	mov r12, r10
+ 	sub r12, rax
+ 	shl r12, 2 ; r12 = (cantCols - (radios * 2 + 1) ) * 4
+
+ 	add r13, r12
+
+ 	add rdx, 12
+
+ 	jmp .ciclo1
 
 
 
-;PONER EN 255!!!!!!!!!!!!!!!!
+
+;PONER EN 255!!!!!!!!!!!!!!!! Y GUARDAR TODO EL PIXEL 
+;cuando lo probemos hay que sacar el "extern afectarPixel" 
 
 pop r15
 pop r14
