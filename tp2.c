@@ -9,14 +9,17 @@
 #include "helper/utils.h"
 #include "helper/imagenes.h"
 
-#define N_ENTRADAS_diff 2
-#define N_ENTRADAS_blur 1
+#define N_ENTRADAS_diff  2
+#define N_ENTRADAS_diff2 2
+#define N_ENTRADAS_blur  1
 
 DECLARAR_FILTRO(diff)
+DECLARAR_FILTRO(diff2)
 DECLARAR_FILTRO(blur)
 
 filtro_t filtros[] = {
 	DEFINIR_FILTRO(diff) ,
+	DEFINIR_FILTRO(diff2) ,
 	DEFINIR_FILTRO(blur) ,
 	{0,0,0,0,0}
 };

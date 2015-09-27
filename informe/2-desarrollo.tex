@@ -1,0 +1,94 @@
+\section{Desarrollo}
+
+  \subsection{Consideraciones generales}
+    Las imagenes que utilizaremos como entrada y salida de los algoritmos a implementar serán matrices de píxeles. Cada uno de estos píxeles estará representado por cuatro enteros sin signo de 8 bits de profundidad (es decir, en el rango [0, 256)), que representarán, respectivamente, los valores de los colores azul (\textsf{b}), verde (\textsf{g}) y rojo (\textsf{r}), y la transparencia (\textsf{a}).
+
+    Usaremos la notación $I_{x,y}$ para referirnos al píxel ubicado en la fila $x$ y la columna $y$ de la imagen $I$, y la notación $I_{x,y}^k$ para hacer referencia al valor de la componente $k$ de este píxel, donde $k \in \lbrace \mathsf{b, g, r, a} \rbrace$.
+  
+  \subsection{Diferencia de imágenes}
+    Este filtro recibe dos imágenes como entrada y devuelve como salida una tercera imagen que muestra, en cada píxel, la diferencia entre los píxeles correspondientes de las imágenes de entrada, ignorando la componente \textsf{a}. Más especificamente, si $I_1$ e $I_2$ son las imágenes de entrada y $O$ es la imagen de salida, entonces:
+
+    \[ O_{x,y}^k = \begin{cases}
+      \displaystyle \max_{k \in \lbrace \mathsf{b, g, r} \rbrace} \left( \left\vert {I_1}_{x,y}^k - {I_2}_{x,y}^k \right\vert \right)
+        & \text{si } k \in \lbrace \mathsf{b, g, r} \rbrace \\
+      255
+        & \text{si } k = \mathsf{a}
+    \end{cases} \]
+
+    \subsubsection{Implementación en lenguaje C}
+
+    \subsubsection{Implementación en lenguaje ensamblador}
+      Dado que los registros \texttt{XMM} son de 16 bytes, se los puede utilizar para procesar 4 píxeles de las imágenes en paralelo, reduciendo la cantidad de iteraciones del algoritmo y, particularmente, de accesos a memoria necesarios para completar el algoritmo.
+
+      Nuestra implementación del filtro consiste principalmente de un ciclo que itera sobre la imagen. Al comienzo de cada ejecución, se copian 4 píxeles de $I_1$ al registro \texttt{XMM0}, y los correspondientes 4 píxeles de $I_2$ a \texttt{XMM1}.
+
+      \raisebox{2.5mm}{\texttt{XMM0:} } \begin{TAB}(b,1cm,.8cm)[5pt]{|c|c|c|c|c|c|c|}{|c|}
+        $A_4^{\mathsf{b}}$ &
+        $A_4^{\mathsf{g}}$ &
+        $A_4^{\mathsf{r}}$ &
+        $A_4^{\mathsf{a}}$ &
+        $A_3^{\mathsf{b}}$ &
+        $\cdots$ &
+        $A_1^{\mathsf{a}}$ \\
+      \end{TAB}
+
+      \raisebox{2.5mm}{\texttt{XMM1:} } \begin{TAB}(b,1cm,.8cm)[5pt]{|c|c|c|c|c|c|c|}{|c|}
+        $B_4^{\mathsf{b}}$ &
+        $B_4^{\mathsf{g}}$ &
+        $B_4^{\mathsf{r}}$ &
+        $B_4^{\mathsf{a}}$ &
+        $B_3^{\mathsf{b}}$ &
+        $\cdots$ &
+        $B_1^{\mathsf{a}}$ \\
+      \end{TAB}
+
+      El paso siguiente es, para cada una de las componentes de estos píxeles, calcular el valor absoluto de la diferencia entre ambas imágenes. Para realizar esto, realizamos las dos restas, es decir, $\mathtt{XMM0} - \mathtt{XMM1}$ y $\mathtt{XMM1} - \mathtt{XMM0}$. En las posiciones donde el valor contenido en \texttt{XMM0} sea mayor que el de \texttt{XMM1}, será válido el resultado de la primera operación, mientras que en las demás posiciones deberemos quedarnos con el segundo resultado.
+
+      Para seleccionar con cuál de los dos resultados quedarnos, utilizamos una máscara que obtenemos comparando los valores de \texttt{XMM0} y \texttt{XMM1}. Aquí nos encontramos con un problema, ya que debemos comparar enteros sin signo, y \acr{SSE} no brinda instrucciones para hacer esto. Es por eso que recurrimos a desempaquetar los números y considerarlos como enteros con signo de dos bytes, que sí podemos comparar.
+
+      En primer lugar, usando la instrucción \texttt{PUNPCKLBW}, desempaquetamos las partes bajas de \texttt{XMM0} y \texttt{XMM1} en los registros \texttt{XMM2} y \texttt{XMM3}.
+
+      \raisebox{2.5mm}{\texttt{XMM2:} } \begin{TAB}(b,1cm,.8cm)[5pt]{|c|c|c|c|c|c|c|c|c|}{|c|}
+        0 &
+        $A_2^{\mathsf{b}}$ &
+        0 &
+        $A_2^{\mathsf{g}}$ &
+        0 &
+        $A_2^{\mathsf{r}}$ &
+        $\cdots$ &
+        0 &
+        $A_1^{\mathsf{a}}$ \\
+      \end{TAB}
+
+      \raisebox{2.5mm}{\texttt{XMM3:} } \begin{TAB}(b,1cm,.8cm)[5pt]{|c|c|c|c|c|c|c|c|c|}{|c|}
+        0 &
+        $B_2^{\mathsf{b}}$ &
+        0 &
+        $B_2^{\mathsf{g}}$ &
+        0 &
+        $B_2^{\mathsf{r}}$ &
+        $\cdots$ &
+        0 &
+        $B_1^{\mathsf{a}}$ \\
+      \end{TAB}
+
+
+      Luego los comparamos mediante la instrucción \texttt{PCMPGTW}, almacenando la máscara resultante en \texttt{XMM2}. A continuación hacemos lo mismo con las partes altas, usando la instrucción \texttt{PUNPCKHBW} para desempaquetar y guardando el resultado en \texttt{XMM3}. Por último, la instrucción \texttt{PACKSSWB XMM2, XMM3} nos permite obtener en \texttt{XMM2} la máscara que buscábamos, ya que transforma los valores de 2 a 1 byte usando saturación.
+
+  \subsection{Blur gaussiano}
+    Este filtro recibe una imagen como entrada y devuelve como salida el resultado de aplicarle una convolución\footnote{Dadas dos funciones $f$ y $g$, una \emph{convolución} $f * g$ es una operación que las transforma en una tercera función: $(f * g)(t) = \int_{-\infty}^{+\infty} f(\tau) g(t - \tau) \,d\tau$ en el caso continuo, $(f * g)_n = \sum_{k=-\infty}^{+\infty} f_k g_{n-k}$ ($n, k \in \mathbb{Z}$) en el caso discreto.} con una función gaussiana, que dependerá de un parámetro $\sigma$ que podrá ser modificado. Dada la naturaleza del problema, trabajaremos con una convolución discreta en dos dimensiones, y como nuestro poder de cómputo es limitado, procesaremos solo una vecindad acotada de cada píxel, cuyo radio quedará determinado por un parámetro configurable $r$. En definitiva, el resultado del filtro será
+
+    \[ O_{x,y}^k = \begin{cases}
+      \displaystyle \sum_{i=-r}^r \sum_{j=-r}^r O_{x+i,y+j}^k K_{r-i,r-j}
+        & \text{si } k \in \lbrace \mathsf{b, g, r} \rbrace \\
+      255
+        & \text{si } k = \mathsf{a}
+    \end{cases} \]
+
+    donde $K$ es la matriz o \emph{kernel} de la convolución, con
+
+    \[ K_{i,j} = \frac{1}{2 \pi \sigma^2} e^{- \frac{(r-i)^2 + (r-j)^2}{2 \sigma^2}} \qquad \text{para todo } 0 \leq i,j \leq 2r \]
+
+    \subsubsection{Implementación en lenguaje C}
+
+    \subsubsection{Implementación en lenguaje ensamblador}

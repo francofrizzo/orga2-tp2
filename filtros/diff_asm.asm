@@ -28,37 +28,37 @@ diff_asm:
     push rbp
     mov rbp, rsp
 
-    imul ecx, r8d   ; exc = cantidad de píxeles
+    imul ecx, r8d                          ; exc = cantidad de píxeles
 
     .ciclo:
-        sub ecx, 4  ; decremento el contador de píxeles
+        sub ecx, 4                         ; decremento el contador de píxeles
         cmp ecx, 0
         jl .fin
-        movdqu xmm0, [rdi]  ; me traigo los píxeles de ambas imágenes
+        movdqu xmm0, [rdi]                 ; me traigo los píxeles de ambas imágenes
         movdqu xmm1, [rsi]
 
         ; calculo el módulo de las diferencias:
-        pxor xmm7, xmm7  ; xmm7 <- 0
-        movdqu xmm2, xmm0  ; xmm2 <- píxeles de src
-        movdqu xmm3, xmm1  ; xmm3 <- píxeles de src_2
-        punpcklbw xmm2, xmm7  ; desempaqueto las partes bajas
+        pxor xmm7, xmm7                    ; xmm7 <- 0
+        movdqu xmm2, xmm0                  ; xmm2 <- píxeles de src
+        movdqu xmm3, xmm1                  ; xmm3 <- píxeles de src_2
+        punpcklbw xmm2, xmm7               ; desempaqueto las partes bajas
         punpcklbw xmm3, xmm7
-        pcmpgtw xmm2, xmm3  ; xmm2 <- máscara de partes bajas
+        pcmpgtw xmm2, xmm3                 ; xmm2 <- máscara de partes bajas
 
-        movdqu xmm3, xmm0  ; xmm3 <- píxeles de src
-        movdqu xmm4, xmm1  ; xmm4 <- píxeles de src_2
-        punpckhbw xmm3, xmm7  ; desempaqueto las partes altas
+        movdqu xmm3, xmm0                  ; xmm3 <- píxeles de src
+        movdqu xmm4, xmm1                  ; xmm4 <- píxeles de src_2
+        punpckhbw xmm3, xmm7               ; desempaqueto las partes altas
         punpckhbw xmm4, xmm7
-        pcmpgtw xmm3, xmm4  ; xmm3 <- máscara de partes altas
+        pcmpgtw xmm3, xmm4                 ; xmm3 <- máscara de partes altas
 
-        packsswb xmm2, xmm3  ; xmm2 <- máscara completa
+        packsswb xmm2, xmm3                ; xmm2 <- máscara completa
 
-        movdqu xmm3, xmm0  ; xmm3 <- píxeles de src
-        psubusb xmm0, xmm1  ; xmm0 <- src - src_2
-        psubusb xmm1, xmm3  ; xmm1 <- src_2 - src
-        pand xmm0, xmm2  ; me quedo con los que corresponden de src
-        vpandn xmm1, xmm2, xmm1  ; me quedo con los que corresponden de src_2
-        por xmm0, xmm1  ; combino las diferencias
+        movdqu xmm3, xmm0                  ; xmm3 <- píxeles de src
+        psubusb xmm0, xmm1                 ; xmm0 <- src - src_2
+        psubusb xmm1, xmm3                 ; xmm1 <- src_2 - src
+        pand xmm0, xmm2                    ; me quedo con los que corresponden de src
+        vpandn xmm1, xmm2, xmm1            ; me quedo con los que corresponden de src_2
+        por xmm0, xmm1                     ; combino las diferencias
 
         ; xmm0 = módulo de la diferencia de píxeles
 
