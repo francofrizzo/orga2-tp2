@@ -22,7 +22,7 @@ BUILD_DIR = ../build
 
 FILTROS = diff blur
 
-FILTROS_OBJ = $(addsuffix .o, $(FILTROS)) $(addsuffix _asm.o, $(FILTROS)) $(addsuffix _c.o, $(FILTROS))
+FILTROS_OBJ = $(addsuffix .o, $(FILTROS)) $(addsuffix _asm.o, $(FILTROS)) $(addsuffix _c.o, $(FILTROS)) $(addsuffix _asm2.o, $(FILTROS)) $(addsuffix _c2.o, $(FILTROS))
 FILTROS_OBJ_CON_PATH = $(addprefix  $(BUILD_DIR)/, $(FILTROS_OBJ))
 
 .PHONY: filtros clean

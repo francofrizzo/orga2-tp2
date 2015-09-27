@@ -4,7 +4,7 @@
 #include <math.h>
 #include "../tp2.h"
 
-void diff2_c (
+void diff_c2 (
 	unsigned char *src,
 	unsigned char *src_2,
 	unsigned char *dst,

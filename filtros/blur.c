@@ -11,6 +11,12 @@ void blur_asm    (unsigned char *src, unsigned char *dst, int cols, int filas,
 void blur_c    (unsigned char *src, unsigned char *dst, int cols, int filas,
                       float sigma, int radius);
 
+void blur_asm2    (unsigned char *src, unsigned char *dst, int cols, int filas,
+                      float sigma, int radius);
+
+void blur_c2    (unsigned char *src, unsigned char *dst, int cols, int filas,
+                      float sigma, int radius);
+
 typedef void (blur_fn_t) (unsigned char*, unsigned char*, int, int, float, int);
 
 typedef struct blur_params_t {
@@ -29,7 +35,7 @@ void leer_params_blur(configuracion_t *config, int argc, char *argv[]) {
 
 void aplicar_blur(configuracion_t *config)
 {
-	blur_fn_t *blur = SWITCH_C_ASM ( config, blur_c, blur_asm ) ;
+	blur_fn_t *blur = SWITCH_C_ASM ( config, blur_c, blur_asm, blur_c2, blur_asm2 ) ;
 	buffer_info_t info = config->src;
     blur_params_t * extra_params = (blur_params_t *) config->extra_config;
 	blur(info.bytes, config->dst.bytes, info.width, info.height,

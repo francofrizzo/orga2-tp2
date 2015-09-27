@@ -4,8 +4,10 @@
 
 #include <stdbool.h>
 
-#define FILTRO_C   0
-#define FILTRO_ASM 1
+#define FILTRO_C      0
+#define FILTRO_ASM    1
+#define FILTRO_C2     2
+#define FILTRO_ASM2   3
 
 typedef struct bgra_t {
 	unsigned char b, g, r, a;
@@ -61,8 +63,11 @@ typedef struct configuracion_t
 	int cant_iteraciones;
 } configuracion_t;
 
-#define SWITCH_C_ASM(config,c_ver,asm_ver) ( config->tipo_filtro == FILTRO_C ? c_ver : asm_ver )
-#define C_ASM(config) ( SWITCH_C_ASM(config, "C", "ASM") )
+// #define SWITCH_C_ASM(config,c_ver,asm_ver) ( config->tipo_filtro == FILTRO_C ? c_ver : asm_ver )
+#define SWITCH_C_ASM(config,c_ver,asm_ver,c2_ver,asm2_ver) ( config->tipo_filtro == FILTRO_C ? c_ver : \
+																( config->tipo_filtro == FILTRO_ASM ? asm_ver : \
+																	( config->tipo_filtro == FILTRO_C2 ? c2_ver : asm2_ver ) ) )
+#define C_ASM(config) ( SWITCH_C_ASM(config, "C", "ASM", "C2", "ASM2") )
 
 typedef void (lector_params_fn_t) (configuracion_t *config, int, char *[]);
 typedef void (aplicador_fn_t) (configuracion_t*);

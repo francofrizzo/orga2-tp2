@@ -12,7 +12,7 @@ BIN = tp2
 
 FILTROS = diff blur
 
-FILTROS_OBJ = $(addsuffix .o, $(FILTROS)) $(addsuffix _asm.o, $(FILTROS)) $(addsuffix _c.o, $(FILTROS))
+FILTROS_OBJ = $(addsuffix .o, $(FILTROS)) $(addsuffix _asm.o, $(FILTROS)) $(addsuffix _c.o, $(FILTROS)) $(addsuffix _asm2.o, $(FILTROS)) $(addsuffix _c2.o, $(FILTROS))
 LIBS_OBJS   = libbmp.o imagenes.o
 MAIN_OBJS   = tp2.o cli.o
 MAIN_OBJS_CON_PATH = $(addprefix $(BUILD_DIR)/, $(MAIN_OBJS))

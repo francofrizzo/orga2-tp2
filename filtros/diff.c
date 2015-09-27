@@ -13,6 +13,14 @@ void diff_c (unsigned char *src, unsigned char *src_2, unsigned char *dst,
             int cols, int filas, int src_row_size,
             int src_row_size_2 ,int dst_row_size);
 
+void diff_asm2  (unsigned char *src, unsigned char *src_2, unsigned char *dst,
+                int cols, int filas, int src_row_size,
+                int src_row_size_2 ,int dst_row_size);
+
+void diff_c2 (unsigned char *src, unsigned char *src_2, unsigned char *dst,
+            int cols, int filas, int src_row_size,
+            int src_row_size_2 ,int dst_row_size);
+
 typedef void (diff_fn_t) (unsigned char*, unsigned char*, unsigned char*,
                           int, int, int, int, int);
 
@@ -37,7 +45,7 @@ void leer_params_diff(configuracion_t *config, int argc, char *argv[]) {
 
 void aplicar_diff(configuracion_t *config)
 {
-	diff_fn_t *diff = SWITCH_C_ASM ( config, diff_c, diff_asm ) ;
+	diff_fn_t *diff = SWITCH_C_ASM ( config, diff_c, diff_asm, diff_c2, diff_asm2 ) ;
 	buffer_info_t info = config->src;
 	buffer_info_t info2 = config->src_2;
     if (info.width != info2.width || info.height != info2.height) {
