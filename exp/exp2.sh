@@ -7,9 +7,9 @@ repeticiones=1
 implementaciones="asm c"
 
 verbose=false
-while getopts 'i:vhcs:' opt; do
+while getopts 'n:vhcs:' opt; do
   case $opt in
-    i) repeticiones=$OPTARG ;;
+    n) repeticiones=$OPTARG ;;
     v) verbose=true ;;
     h) echo ""
        echo "    Experimento 2. Se aplica el filtro blur a una imagen fija, variando"
@@ -18,7 +18,7 @@ while getopts 'i:vhcs:' opt; do
        echo "    Opciones disponibles:"
        echo "        -c        Elimina los archivos generados por el experimento."
        echo "        -h        Imprime este texto de ayuda"
-       echo "        -i <núm>  Determina la cantidad de veces que se realizará el expe-"
+       echo "        -n <núm>  Determina la cantidad de veces que se realizará el expe-"
        echo "                    rimento (1 por defecto)."
        echo "        -v        Muestra más información por pantalla."
        echo "        -s        Determina el valor del parámetro sigma (5 por defecto)."

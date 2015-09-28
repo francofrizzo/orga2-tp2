@@ -2,8 +2,8 @@
 
 tamanos="1800 1644 1500 1344 1200 1044 900 744 600 480 300 240 180 120 96 60 48 36 24"
 repeticiones=1
-imp_diff="asm c"
-imp_blur="asm c"
+imp_diff="c c2"
+imp_blur="asm asm2"
 filtros="both"
 
 verbose=false
@@ -21,7 +21,8 @@ while getopts 'n:vhcf:i:' opt; do
        echo "        -h        Imprime este texto de ayuda"
        echo "        -i        Lista de las implementaciones de los filtros que se ejecuta-"
        echo "                  rán, separadas por comas. Valores posibles: c, asm, c2, asm2."
-       echo "                  Por defecto, se ejecutan c y asm."
+       echo "                  Por defecto, se ejecutarán las implementacions c y c2 de diff"
+       echo "                  y asm y asm2 de blur."
        echo "        -n <núm>  Determina la cantidad de veces que se ejecutará cada imple-"
        echo "                    mentación (1 por defecto)."
        echo "        -v        Muestra más información por pantalla."
