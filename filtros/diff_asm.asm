@@ -3,18 +3,19 @@ global _diff_asm
 global diff_asm
 
 section .data
-    mask_r_to_bgr: db 0x02, 0x02, 0x02, 0x03, 0x06, 0x06, 0x06, 0x07, 0x0a, 0x0a, 0x0a, 0x0b, 0x0e, 0x0e, 0x0e, 0x0f
-    mask_alpha_to_ones: db 0x00, 0x00, 0x00, 0xff, 0x00, 0x00, 0x00, 0xff, 0x00, 0x00, 0x00, 0xff, 0x00, 0x00, 0x00, 0xff
+    mask_r_to_bgr:        db 0x02, 0x02, 0x02, 0x03, 0x06, 0x06, 0x06, 0x07, 0x0a, 0x0a, 0x0a, 0x0b, 0x0e, 0x0e, 0x0e, 0x0f
+    mask_alpha_to_ones:   db 0x00, 0x00, 0x00, 0xff, 0x00, 0x00, 0x00, 0xff, 0x00, 0x00, 0x00, 0xff, 0x00, 0x00, 0x00, 0xff
     mask_alpha_to_zeroes: db 0xff, 0xff, 0xff, 0x00, 0xff, 0xff, 0xff, 0x00, 0xff, 0xff, 0xff, 0x00, 0xff, 0xff, 0xff, 0x00
 
 section .text
 
-;void diff_asm    (
-	;unsigned char *src,
-    ;unsigned char *src2,
-	;unsigned char *dst,
-	;int filas,
-	;int cols)
+; void diff_asm (
+;     unsigned char *src,
+;     unsigned char *src2,
+;     unsigned char *dst,
+;     int filas,
+;     int cols
+; )
 
 _diff_asm:
 diff_asm:
@@ -68,8 +69,10 @@ diff_asm:
         pmaxub xmm1, xmm0                  ; xmm1 =  x | max(g1, b1) | x | x | ...
         pslldq xmm1, 1                     ; xmm1 =  0 | x | max(g1, b1) | x | ...
         pmaxub xmm0, xmm1                  ; xmm0 =  x | x | max1 | x | ...
-        pshufb xmm0, [mask_r_to_bgr]       ; xmm0 = max1 | max1 | max1 | 0 | ...
-        por xmm0, [mask_alpha_to_ones]     ; xmm0 = max1 | max1 | max1 | 255 | ...
+        movdqu xmm1, [mask_r_to_bgr]
+        pshufb xmm0, xmm1                  ; xmm0 = max1 | max1 | max1 | 0 | ...
+        movdqu xmm1, [mask_alpha_to_ones]
+        por xmm0, xmm1                     ; xmm0 = max1 | max1 | max1 | 255 | ...
 
         ; guardo el valor obtenido en memoria:
         movdqu [rdx], xmm0
