@@ -42,8 +42,10 @@ if [ $? -ne 0 ]; then
 fi
 
 echo "Corriendo instancias del experimento..."
+
+# diff
 for imp in $imp_diff; do
-    mkdir -p $(dirname $0)/exp1/$filtro-$imp
+    mkdir -p $(dirname $0)/exp1/diff-$imp
     echo "   Filtro: diff   Implementación: $imp   Imágenes: phoebe1, phoebe2"
     echo "Filtro: diff   Implementación: $imp   Imágenes: phoebe1, phoebe2" >> $(dirname $0)/exp1/datos.txt
     for k in $(seq $repeticiones); do
@@ -53,7 +55,7 @@ for imp in $imp_diff; do
             if [ "$verbose" = true ]; then
                 echo "  Corriendo instancia ${i}×${j}"
             fi
-            $(dirname $0)/../build/tp2 diff -i $imp -o $(dirname $0)/exp1/$filtro-$imp $(dirname $0)/exp1/phoebe1-$i.bmp $(dirname $0)/exp1/phoebe2-$i.bmp |
+            $(dirname $0)/../build/tp2 diff -i $imp -o $(dirname $0)/exp1/diff-$imp $(dirname $0)/exp1/phoebe1-$i.bmp $(dirname $0)/exp1/phoebe2-$i.bmp |
                 sed -e '/insumidos totales/!d' -e 's/.*: //' |
                 while IFS= read -r line; do
                     if [ "$verbose" = true ]; then
@@ -66,8 +68,9 @@ for imp in $imp_diff; do
     done
 done
 
+# blur
 for imp in $imp_blur; do
-    mkdir -p $(dirname $0)/exp1/$filtro-$imp
+    mkdir -p $(dirname $0)/exp1/blur-$imp
     echo "   Filtro: blur   Implementación: $imp   Imagen: phoebe1"
     echo "Filtro: blur   Implementación: $imp   Imagen: phoebe1" >> $(dirname $0)/exp1/datos.txt
     for k in $(seq $repeticiones); do
@@ -77,7 +80,7 @@ for imp in $imp_blur; do
             if [ "$verbose" = true ]; then
                 echo "  Corriendo instancia ${i}×${j}"
             fi
-            $(dirname $0)/../build/tp2 blur -i $imp -o $(dirname $0)/exp1/$filtro-$imp $(dirname $0)/exp1/phoebe1-$i.bmp 5 15 |
+            $(dirname $0)/../build/tp2 blur -i $imp -o $(dirname $0)/exp1/blur-$imp $(dirname $0)/exp1/phoebe1-$i.bmp 5 15 |
                 sed -e '/insumidos totales/!d' -e 's/.*: //' |
                 while IFS= read -r line; do
                     if [ "$verbose" = true ]; then
@@ -89,43 +92,3 @@ for imp in $imp_blur; do
         echo "" >> $(dirname $0)/exp1/datos.txt
     done
 done
-
-# echo " "
-# echo "**Corriendo Valgrind"
-
-# valgrind --show-reachable=yes --leak-check=full --error-exitcode=1 ./tester
-# if [ $? -ne 0 ]; then
-#   echo "  **Error de memoria"
-#   exit 1
-# fi
-
-# echo " "
-# echo "**Corriendo diferencias con la catedra"
-
-# DIFFER="diff -d"
-# ERRORDIFF=0
-
-# $DIFFER salida.caso1.txt salida.caso1.catedra.txt > /tmp/diff1
-# if [ $? -ne 0 ]; then
-#   echo "  **Discrepancia en el caso 1"
-#   ERRORDIFF=1
-# fi
-
-# $DIFFER salida.caso2.txt salida.caso2.catedra.txt > /tmp/diff2
-# if [ $? -ne 0 ]; then
-#   echo "  **Discrepancia en el caso 2"
-#   ERRORDIFF=1
-# fi
-
-# $DIFFER salida.casoN.txt salida.casoN.catedra.txt > /tmp/diffN
-# if [ $? -ne 0 ]; then
-#   echo "  **Discrepancia en el caso N"
-#   ERRORDIFF=1
-# fi
-
-# echo " "
-# if [ $ERRORDIFF -eq 0 ]; then
-#   echo "**Todos los tests pasan"
-# fi
-# echo " "
-
