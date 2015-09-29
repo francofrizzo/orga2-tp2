@@ -1,6 +1,6 @@
 #!/bin/bash
 
-tamanos="1800 1644 1500 1344 1200 1044 900 744 600 480 300 240 180 120 96 60 48 36 24"
+tamanos="240 180 120 96 60 48 36 24"
 repeticiones=1
 imp_diff="asm c"
 imp_blur="asm c"

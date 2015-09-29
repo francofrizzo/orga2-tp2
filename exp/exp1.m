@@ -34,16 +34,18 @@ mkdir('graficos');
 figure;
 
 hold on;
-errorbar(diff_c_x, diff_c_y, diff_c_e);
+h = errorbar(diff_c_x, diff_c_y, diff_c_e);
 errorbar(diff_asm_x, diff_asm_y, diff_asm_e);
 hold off;
+set(get(h, 'Parent'), 'YScale', 'log');
 print('graficos/exp1-diff-c_vs_asm.pdf', '-dpdf');
 
 clf;
 hold on;
-errorbar(blur_c_x, blur_c_y, blur_c_e);
+h = errorbar(blur_c_x, blur_c_y, blur_c_e);
 errorbar(blur_asm_x, blur_asm_y, blur_asm_e);
 hold off;
+set(get(h, 'Parent'), 'YScale', 'log');
 print('graficos/exp1-blur-c_vs_asm.pdf', '-dpdf');
 
 clf;
