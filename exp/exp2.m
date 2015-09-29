@@ -24,5 +24,8 @@ figure;
 hold on;
 errorbar(blur_c_x, blur_c_y, blur_c_e, 'r');
 errorbar(blur_asm_x, blur_asm_y, blur_asm_e);
+xlabel('Radio','FontSize',12);
+ylabel('Tiempo de ejecucion en ciclos de clock','FontSize',12);
+legend('Implementacion en C','Implementacion en ensamblador');
 hold off;
 print('graficos/exp2-tiempo_segun_radio', filetype);

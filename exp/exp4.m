@@ -31,7 +31,10 @@ figure;
 
 hold on;
 h = errorbar(diff_c_x, diff_c_y, diff_c_e);
-errorbar(diff_c2_x, diff_c2_y, diff_c2_e);
+errorbar(diff_c2_x, diff_c2_y, diff_c2_e, 'r');
+xlabel('Tamano de imagen','FontSize',12);
+ylabel('Tiempo de ejecucion en ciclos de clock','FontSize',12);
+legend('Sin llamados a funcion','Con llamados a funcion','Location','northwest');
 hold off;
 set(get(h, 'Parent'), 'YScale', 'log');
 set(get(h, 'Parent'), 'XScale', 'log');
@@ -39,8 +42,11 @@ print('graficos/exp4-diff-c_vs_c2', filetype);
 
 clf;
 hold on;
-h = errorbar(blur_asm_x, blur_asm_y, blur_asm_e);
-errorbar(blur_asm2_x, blur_asm2_y, blur_asm2_e);
+h = errorbar(blur_asm2_x, blur_asm2_y, blur_asm2_e);
+errorbar(blur_asm_x, blur_asm_y, blur_asm_e, 'r');
+xlabel('Tamano de imagen','FontSize',12);
+ylabel('Tiempo de ejecucion en ciclos de clock','FontSize',12);
+legend('Sin llamados a funcion','Con llamados a funcion','Location','northwest');
 hold off;
 set(get(h, 'Parent'), 'YScale', 'log');
 set(get(h, 'Parent'), 'XScale', 'log');
