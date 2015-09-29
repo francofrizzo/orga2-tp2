@@ -1,6 +1,8 @@
 #!/bin/bash
 
-sigmas="0.5 1 1.5 "$(seq 3 3 48)" 50"
+LC_NUMERIC="en_US.UTF-8"
+
+sigmas=".5 1 1.5 "$(seq 3 3 48)" 50"
 r_fijo=50
 
 repeticiones=1
@@ -50,24 +52,24 @@ echo "Corriendo instancias del experimento..."
 for imp in $implementaciones; do
     mkdir -p $(dirname $0)/exp3/out/blur-$imp
     echo "   Implementación: $imp   Imagen: phoebe1   Radio: $r_fijo"
-    echo "Implementación: $imp   Imagen: phoebe1   Radio: $r_fijo" >> $(dirname $0)/exp3/datos.txt
-    for k in $(seq $repeticiones); do
-        for s in $sigmas; do
-            if [ "$verbose" = true ]; then
-                echo "  Corriendo instancia sigma = $s"
-            fi
+    for s in $sigmas; do
+        printf "%.2g" "$s" >> $(dirname $0)/exp3/data-blur-$imp.txt
+        if [ "$verbose" = true ]; then
+            echo "  Corriendo instancia sigma = $s"
+        fi
+        for k in $(seq $repeticiones); do
             $(dirname $0)/../build/tp2 blur -i $imp -o $(dirname $0)/exp3/out/blur-$imp $(dirname $0)/exp3/in/phoebe1-600.bmp $s $r_fijo |
                 sed -e '/insumidos totales/!d' -e 's/.*: //' |
                 while IFS= read -r line; do
                     if [ "$verbose" = true ]; then
                         printf "    Sigma: %8s.    Tiempo insumido: %12s\n" "$s" "$line"
                     fi
-                    echo "$s $line" >> $(dirname $0)/exp3/datos.txt
+                    printf " %d" "$line" >> $(dirname $0)/exp3/data-blur-$imp.txt
                 done
             n1=$($(dirname $0)/../build/tp2 blur -i $imp -n $(dirname $0)/exp3/in/phoebe1-600.bmp)
             n2=$(echo $n1 | sed -e "s/.bmp$/.$s.$r_fijo.bmp/")
             mv $(dirname $0)/exp3/out/blur-$imp/$n1 $(dirname $0)/exp3/out/blur-$imp/$n2
         done
-        echo "" >> $(dirname $0)/exp3/datos.txt
+        printf "\n" >> $(dirname $0)/exp3/data-blur-$imp.txt
     done
 done

@@ -30,7 +30,7 @@ while getopts 'n:vhcf:i:' opt; do
     c) rm $(dirname $0)/exp1 -R
        exit 0 ;;
     f) filtros=$OPTARG ;;
-    i) imp_diff=$(echo $OPTARG | sed s/,/\\n/g) ; imp_asm=$(echo $OPTARG | sed s/,/\\n/g) ;;
+    i) imp_diff=$(echo $OPTARG | sed s/,/\\n/g) ; imp_blur=$(echo $OPTARG | sed s/,/\\n/g) ;;
   esac
 done
 
@@ -69,24 +69,25 @@ if [[ $filtros = "diff" || $filtros == "both" ]]; then
     for imp in $imp_diff; do
         mkdir -p $(dirname $0)/exp1/out/diff-$imp
         echo "   Filtro: diff   Implementación: $imp   Imágenes: phoebe1, phoebe2"
-        echo "Filtro: diff   Implementación: $imp   Imágenes: phoebe1, phoebe2" >> $(dirname $0)/exp1/datos.txt
-        for k in $(seq $repeticiones); do
-            for i in $tamanos; do
-                let "j=i*2/3"
-                let "t=i*j"
-                if [ "$verbose" = true ]; then
-                    echo "  Corriendo instancia ${i}×${j}"
-                fi
+        printf "%d\n" $repeticiones >> $(dirname $0)/exp1/data-diff-$imp.txt
+        for i in $tamanos; do
+            let "j=i*2/3"
+            let "t=i*j"
+            if [ "$verbose" = true ]; then
+                echo "  Corriendo instancia ${i}×${j}"
+            fi
+            printf "%d" "$t" >> $(dirname $0)/exp1/data-diff-$imp.txt
+            for k in $(seq $repeticiones); do
                 $(dirname $0)/../build/tp2 diff -i $imp -o $(dirname $0)/exp1/out/diff-$imp $(dirname $0)/exp1/in/phoebe1-$i.bmp $(dirname $0)/exp1/in/phoebe2-$i.bmp |
                     sed -e '/insumidos totales/!d' -e 's/.*: //' |
                     while IFS= read -r line; do
                         if [ "$verbose" = true ]; then
                             printf "    Tamaño: %8s.    Tiempo insumido: %12s\n" "$t" "$line"
                         fi
-                        echo "$t $line" >> $(dirname $0)/exp1/datos.txt
+                        printf " %d" "$line" >> $(dirname $0)/exp1/data-diff-$imp.txt
                     done
             done
-            echo "" >> $(dirname $0)/exp1/datos.txt
+            printf "\n" >> $(dirname $0)/exp1/data-diff-$imp.txt
         done
     done
 fi
@@ -96,24 +97,25 @@ if [[ $filtros = "blur" || $filtros == "both" ]]; then
     for imp in $imp_blur; do
         mkdir -p $(dirname $0)/exp1/out/blur-$imp
         echo "   Filtro: blur   Implementación: $imp   Imagen: phoebe1"
-        echo "Filtro: blur   Implementación: $imp   Imagen: phoebe1" >> $(dirname $0)/exp1/datos.txt
-        for k in $(seq $repeticiones); do
-            for i in $tamanos; do
-                let "j=i*2/3"
-                let "t=i*j"
-                if [ "$verbose" = true ]; then
-                    echo "  Corriendo instancia ${i}×${j}"
-                fi
+        printf "%d\n" $repeticiones >> $(dirname $0)/exp1/data-blur-$imp.txt
+        for i in $tamanos; do
+            let "j=i*2/3"
+            let "t=i*j"
+            if [ "$verbose" = true ]; then
+                echo "  Corriendo instancia ${i}×${j}"
+            fi
+            printf "%d" "$t" >> $(dirname $0)/exp1/data-blur-$imp.txt
+            for k in $(seq $repeticiones); do
                 $(dirname $0)/../build/tp2 blur -i $imp -o $(dirname $0)/exp1/out/blur-$imp $(dirname $0)/exp1/in/phoebe1-$i.bmp 5 15 |
                     sed -e '/insumidos totales/!d' -e 's/.*: //' |
                     while IFS= read -r line; do
                         if [ "$verbose" = true ]; then
                             printf "    Tamaño: %8s.    Tiempo insumido: %12s\n" "$t" "$line"
                         fi
-                        echo "$t $line" >> $(dirname $0)/exp1/datos.txt
+                        printf " %d" "$line" >> $(dirname $0)/exp1/data-blur-$imp.txt
                     done
             done
-            echo "" >> $(dirname $0)/exp1/datos.txt
+            printf "\n" >> $(dirname $0)/exp1/data-blur-$imp.txt
         done
     done
 fi

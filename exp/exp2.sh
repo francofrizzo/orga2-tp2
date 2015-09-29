@@ -50,24 +50,25 @@ echo "Corriendo instancias del experimento..."
 for imp in $implementaciones; do
     mkdir -p $(dirname $0)/exp2/out/blur-$imp
     echo "   Implementación: $imp   Imagen: phoebe1   Sigma: $sigma_fijo"
-    echo "Implementación: $imp   Imagen: phoebe1   Sigma: $sigma_fijo" >> $(dirname $0)/exp2/datos.txt
-    for k in $(seq $repeticiones); do
-        for r in $radios; do
-            if [ "$verbose" = true ]; then
-                echo "  Corriendo instancia r = $r"
-            fi
+    printf "%d\n" $repeticiones >> $(dirname $0)/exp2/data-blur-$imp.txt
+    for r in $radios; do
+        printf "%d" "$r" >> $(dirname $0)/exp2/data-blur-$imp.txt
+        if [ "$verbose" = true ]; then
+            echo "  Corriendo instancia r = $r"
+        fi
+        for k in $(seq $repeticiones); do
             $(dirname $0)/../build/tp2 blur -i $imp -o $(dirname $0)/exp2/out/blur-$imp $(dirname $0)/exp2/in/phoebe1-600.bmp $sigma_fijo $r |
                 sed -e '/insumidos totales/!d' -e 's/.*: //' |
                 while IFS= read -r line; do
                     if [ "$verbose" = true ]; then
                         printf "    Radio: %8s.    Tiempo insumido: %12s\n" "$r" "$line"
                     fi
-                    echo "$r $line" >> $(dirname $0)/exp2/datos.txt
+                    printf " %d" "$line" >> $(dirname $0)/exp2/data-blur-$imp.txt
                 done
             n1=$($(dirname $0)/../build/tp2 blur -i $imp -n $(dirname $0)/exp2/in/phoebe1-600.bmp)
             n2=$(echo $n1 | sed -e "s/.bmp$/.$sigma_fijo.$r.bmp/")
             mv $(dirname $0)/exp2/out/blur-$imp/$n1 $(dirname $0)/exp2/out/blur-$imp/$n2
         done
-        echo "" >> $(dirname $0)/exp2/datos.txt
+        printf "\n" >> $(dirname $0)/exp2/data-blur-$imp.txt
     done
 done
