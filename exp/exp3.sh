@@ -69,7 +69,8 @@ for imp in $implementaciones; do
                 done
             n1=$($(dirname $0)/../build/tp2 blur -i $imp -n $(dirname $0)/exp3/in/phoebe1-600.bmp)
             n2=$(echo $n1 | sed -e "s/.bmp$/.$s.$r_fijo.bmp/")
-            mv $(dirname $0)/exp3/out/blur-$imp/$n1 $(dirname $0)/exp3/out/blur-$imp/$n2
+            # mv $(dirname $0)/exp3/out/blur-$imp/$n1 $(dirname $0)/exp3/out/blur-$imp/$n2
+            rm $(dirname $0)/exp3/out/blur-$imp/$n1
         done
         printf "\n" >> $(dirname $0)/exp3/data-blur-$imp.txt
     done

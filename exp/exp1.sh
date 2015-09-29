@@ -1,6 +1,6 @@
 #!/bin/bash
 
-tamanos="240 180 120 96 60 48 36 24"
+tamanos="1800 1644 1500 1344 1200 1044 900 744 600 480 300 240 180 120 96 60 48 36 24"
 repeticiones=1
 imp_diff="asm c"
 imp_blur="asm c"
@@ -86,6 +86,8 @@ if [[ $filtros = "diff" || $filtros == "both" ]]; then
                         fi
                         printf " %d" "$line" >> $(dirname $0)/exp1/data-diff-$imp.txt
                     done
+                    nombre=$((dirname $0)/../build/tp2 diff -i $imp -n $(dirname $0)/exp1/in/phoebe1-$i.bmp $(dirname $0)/exp1/in/phoebe2-$i.bmp))
+                    rm $(dirname $0)/exp1/out/diff-$imp/$nombre
             done
             printf "\n" >> $(dirname $0)/exp1/data-diff-$imp.txt
         done
@@ -114,6 +116,8 @@ if [[ $filtros = "blur" || $filtros == "both" ]]; then
                         fi
                         printf " %d" "$line" >> $(dirname $0)/exp1/data-blur-$imp.txt
                     done
+                    nombre=$((dirname $0)/../build/tp2 blur -i $imp -n $(dirname $0)/exp1/in/phoebe1-$i.bmp))
+                    rm $(dirname $0)/exp1/out/blur-$imp/$nombre
             done
             printf "\n" >> $(dirname $0)/exp1/data-blur-$imp.txt
         done

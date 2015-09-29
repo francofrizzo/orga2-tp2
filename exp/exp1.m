@@ -30,6 +30,7 @@ fprintf(file, formato, [blur_asm_x'; blur_asm_y'; blur_asm_tpp'; blur_asm_e']);
 fclose(file);
 
 % Creación de los gráficos
+filetype='-dpng';
 mkdir('graficos');
 figure;
 
@@ -38,7 +39,8 @@ h = errorbar(diff_c_x, diff_c_y, diff_c_e);
 errorbar(diff_asm_x, diff_asm_y, diff_asm_e);
 hold off;
 set(get(h, 'Parent'), 'YScale', 'log');
-print('graficos/exp1-diff-c_vs_asm.pdf', '-dpdf');
+set(get(h, 'Parent'), 'XScale', 'log');
+print('graficos/exp1-diff-c_vs_asm', filetype);
 
 clf;
 hold on;
@@ -46,18 +48,21 @@ h = errorbar(blur_c_x, blur_c_y, blur_c_e);
 errorbar(blur_asm_x, blur_asm_y, blur_asm_e);
 hold off;
 set(get(h, 'Parent'), 'YScale', 'log');
-print('graficos/exp1-blur-c_vs_asm.pdf', '-dpdf');
+set(get(h, 'Parent'), 'XScale', 'log');
+print('graficos/exp1-blur-c_vs_asm', filetype);
 
 clf;
 hold on;
-plot(diff_c_x, diff_c_tpp);
+h = plot(diff_c_x, diff_c_tpp);
 plot(diff_asm_x, diff_asm_tpp);
 hold off;
-print('graficos/exp1-diff-tiempo_por_pixel.pdf', '-dpdf');
+set(get(h, 'Parent'), 'XScale', 'log');
+print('graficos/exp1-diff-tiempo_por_pixel', filetype);
 
 clf;
 hold on;
-plot(blur_c_x, blur_c_tpp);
+h = plot(blur_c_x, blur_c_tpp);
 plot(blur_asm_x, blur_asm_tpp);
 hold off;
-print('graficos/exp1-blur-tiempo_por_pixel.pdf', '-dpdf');
+set(get(h, 'Parent'), 'XScale', 'log');
+print('graficos/exp1-blur-tiempo_por_pixel', filetype);

@@ -17,11 +17,12 @@ fprintf(file, formato, [blur_asm_x'; blur_asm_y'; blur_asm_e']);
 fclose(file);
 
 % Creación de los gráficos
+filetype='-dpng';
 mkdir('graficos');
 figure;
 
 hold on;
-errorbar(blur_c_x, blur_c_y, blur_c_e);
+errorbar(blur_c_x, blur_c_y, blur_c_e, 'r');
 errorbar(blur_asm_x, blur_asm_y, blur_asm_e);
 hold off;
-print('graficos/exp3-tiempo_segun_radio.pdf', '-dpdf');
+print('graficos/exp2-tiempo_segun_radio', filetype);

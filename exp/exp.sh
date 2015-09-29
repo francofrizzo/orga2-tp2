@@ -8,11 +8,11 @@ experimentos="1 2 3 4"
 while getopts 'cCe:ghn:rv' opt; do
   case $opt in
   	c) clean=true ;;
-    C) for i in $(seq 4); do
+    e) experimentos=$(echo $OPTARG | sed s/,/\\n/g) ;;
+    C) for i in $experimentos; do
            if [ -d $(dirname $0)/exp$i ]; then rm $(dirname $0)/exp$i -R; fi
        done
        exit 0 ;;
-    e) experimentos=$(echo $OPTARG | sed s/,/\\n/g) ;;
 	  g) ejecutar=false ;;
     h) echo ""
        echo "    Ejecuta todos los experimentos y realiza los gráficos correspondientes."

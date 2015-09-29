@@ -1,6 +1,6 @@
 #!/bin/bash
 
-radios="1 2 3 4"$(seq 3 5 40)
+radios="1 2 3 4 "$(seq 3 5 40)
 sigma_fijo=5
 
 repeticiones=1
@@ -67,7 +67,8 @@ for imp in $implementaciones; do
                 done
             n1=$($(dirname $0)/../build/tp2 blur -i $imp -n $(dirname $0)/exp2/in/phoebe1-600.bmp)
             n2=$(echo $n1 | sed -e "s/.bmp$/.$sigma_fijo.$r.bmp/")
-            mv $(dirname $0)/exp2/out/blur-$imp/$n1 $(dirname $0)/exp2/out/blur-$imp/$n2
+            # mv $(dirname $0)/exp2/out/blur-$imp/$n1 $(dirname $0)/exp2/out/blur-$imp/$n2
+            rm $(dirname $0)/exp2/out/blur-$imp/$n1
         done
         printf "\n" >> $(dirname $0)/exp2/data-blur-$imp.txt
     done
