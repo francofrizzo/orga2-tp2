@@ -1,9 +1,9 @@
 \section{Desarrollo}
 
   \subsection{Consideraciones generales}
-    Las imagenes que utilizaremos como entrada y salida de los algoritmos a implementar serán matrices de píxeles. Cada uno de estos píxeles estará representado por cuatro enteros sin signo de 8 bits de profundidad (es decir, en el rango [0, 256)), que representarán, respectivamente, los valores de los colores azul (\textsf{b}), verde (\textsf{g}) y rojo (\textsf{r}), y la transparencia (\textsf{a}).
+    Las imagenes que se utilizan como entrada y salida de los algoritmos a implementar son matrices de píxeles. Cada uno de estos píxeles está representado por cuatro enteros sin signo de 8 bits de profundidad (es decir, en el rango [0, 256)), que contienen, respectivamente, los valores de los colores azul (\textsf{b}), verde (\textsf{g}) y rojo (\textsf{r}), y la transparencia (\textsf{a}).
 
-    Usaremos la notación $I_{x,y}$ para referirnos al píxel ubicado en la fila $x$ y la columna $y$ de la imagen $I$, y la notación $I_{x,y}^k$ para hacer referencia al valor de la componente $k$ de este píxel, donde $k \in \lbrace \mathsf{b, g, r, a} \rbrace$.
+    Se usará la notación $I_{x,y}$ para referirse al píxel ubicado en la fila $x$ y la columna $y$ de la imagen $I$, y la notación $I_{x,y}^k$ para hacer referencia al valor de la componente $k$ de este píxel, donde $k \in \lbrace \mathsf{b, g, r, a} \rbrace$.
   
   \subsection{Diferencia de imágenes}
     Este filtro recibe dos imágenes como entrada y devuelve como salida una tercera imagen que muestra, en cada píxel, la diferencia entre los píxeles correspondientes de las imágenes de entrada, ignorando la componente \textsf{a}. Más especificamente, si $I_1$ e $I_2$ son las imágenes de entrada y $O$ es la imagen de salida, entonces:
@@ -16,12 +16,12 @@
     \end{cases} \]
 
     \subsubsection{Implementación en lenguaje C}
-      La implementación de este filtro en lenguaje C es sumamente sencilla. Ambas imágenes de entrada se recorren simultáneamente mediante dos ciclos anidados, que recorren las filas y las columnas, respectivamente. Para las componentes \textsf{r}, \textsf{g} y \textsf{b} de cada píxel, se calcula el valor absoluto de la diferencia entre los valores correspondientes a ambas imágenes. Luego, se calcula el máximo entre estos tres valores, que se guarda como el valor de las componentes \textsf{r}, \textsf{g} y \textsf{b} para el píxel correspondiente en la imagen de salida. Por último, la componente \textsf{a} de dicho píxel se define como 255.
+      La implementación de este filtro en lenguaje C es sumamente sencilla. Ambas imágenes de entrada se recorren simultáneamente mediante dos ciclos anidados, que iteran sobre sus filas y sus columnas, respectivamente. Para las componentes \textsf{b}, \textsf{g} y \textsf{r} de cada píxel, se calcula el valor absoluto de la diferencia entre los valores correspondientes a ambas imágenes. Luego, se computa el máximo entre estos tres valores, que se guarda como el valor de las componentes \textsf{b}, \textsf{g} y \textsf{r} para el píxel correspondiente en la imagen de salida. Por último, la componente \textsf{a} de dicho píxel se define como 255.
 
     \subsubsection{Implementación en lenguaje ensamblador}
       Al implementar el filtro en lenguaje ensamblador, es posible aprovechar las ventajas que brinda el modelo \acr{SIMD}. En particular, dado que los registros \texttt{XMM} son de 16 bytes, se los puede utilizar para procesar 4 píxeles de las imágenes en paralelo, reduciendo la cantidad de iteraciones del algoritmo y, particularmente, de accesos a memoria necesarios para completar el algoritmo.
 
-      Nuestra implementación del filtro consiste principalmente de un ciclo que itera sobre la imagen. Al comienzo de cada ejecución, se copian 4 píxeles de $I_1$ al registro \texttt{XMM0}, y los correspondientes 4 píxeles de $I_2$ a \texttt{XMM1}.
+      La implementación en este lenguaje del filtro consiste principalmente de un ciclo que itera sobre la imagen. Al comienzo de cada ejecución, se copian 4 píxeles de $I_1$ al registro \texttt{XMM0}, y los correspondientes 4 píxeles de $I_2$ a \texttt{XMM1}.
 
       \raisebox{2.5mm}{\texttt{XMM0:} } \begin{TAB}(b,1cm,.8cm)[5pt]{|c|c|c|c|c|c|c|}{|c|}
         $A_4^{\mathsf{b}}$ &
@@ -43,37 +43,63 @@
         $B_1^{\mathsf{a}}$ \\
       \end{TAB}
 
-      El paso siguiente es, para cada una de las componentes de estos píxeles, calcular el valor absoluto de la diferencia entre ambas imágenes. Para realizar esto, realizamos las dos restas, es decir, $\mathtt{XMM0} - \mathtt{XMM1}$ y $\mathtt{XMM1} - \mathtt{XMM0}$. En las posiciones donde el valor contenido en \texttt{XMM0} sea mayor que el de \texttt{XMM1}, será válido el resultado de la primera operación, mientras que en las demás posiciones deberemos quedarnos con el segundo resultado.
+      El paso siguiente consiste en calcular, para cada una de las componentes de estos píxeles, el valor absoluto de la diferencia entre ambas imágenes. Para realizar esto, se realiza la resta de las dos maneras posibles, obtenie $\mathtt{XMM0} = \mathtt{XMM0} - \mathtt{XMM1}$ y $\mathtt{XMM1} = \mathtt{XMM1} - \mathtt{XMM0}$. En las posiciones donde el valor contenido en \texttt{XMM0} sea mayor que el de \texttt{XMM1}, será válido el resultado de la primera operación, mientras que en las demás posiciones se deberá tener en cuenta el segundo resultado.
 
-      Para seleccionar con cuál de los dos resultados quedarnos, utilizamos una máscara que obtenemos comparando los valores de \texttt{XMM0} y \texttt{XMM1}. Aquí nos encontramos con un problema, ya que debemos comparar enteros sin signo, y \acr{SSE} no brinda instrucciones para hacer esto. Es por eso que recurrimos a desempaquetar los números y considerarlos como enteros con signo de dos bytes, que sí podemos comparar.
+      Para seleccionar cuál de los dos resultados es el correcto, se utiliza una máscara que se obtiene comparando los valores de \texttt{XMM0} y \texttt{XMM1}. Aquí aparece un problema, ya que debemos comparar enteros sin signo, y \acr{SSE} no brinda instrucciones para hacer esto. Es por eso que se recurre a desempaquetar los números y considerarlos como enteros con signo de dos bytes, que sí se pueden comparar. Empaquetando luego el resultado obtenido, se logra la máscara buscada. Esta se aplica mediante \texttt{PAND} al valor contenido en \texttt{XMM0} y mediante \texttt{PANDN} al valor presente en \texttt{XMM1}. Posteriormente se computa un \texttt{POR} entre los valores recién calculados, llegando al valor deseado, que se almacena en \texttt{XMM0}.
 
-      En primer lugar, usando la instrucción \texttt{PUNPCKLBW}, desempaquetamos las partes bajas de \texttt{XMM0} y \texttt{XMM1} en los registros \texttt{XMM2} y \texttt{XMM3}.
+      Por último, es necesario calcular la norma infinito de las componentes \textsf{b}, \textsf{g} y \textsf{r} obtenidas. Para hacer esto, se copia en \texttt{XMM1} el último resultado y se lo desplaza un byte hacia la izquierda.
 
-      \raisebox{2.5mm}{\texttt{XMM2:} } \begin{TAB}(b,1cm,.8cm)[5pt]{|c|c|c|c|c|c|c|c|c|}{|c|}
-        0 &
-        $A_2^{\mathsf{b}}$ &
-        0 &
-        $A_2^{\mathsf{g}}$ &
-        0 &
-        $A_2^{\mathsf{r}}$ &
+      \raisebox{2.5mm}{\texttt{XMM0:} } \begin{TAB}(b,1cm,.8cm)[5pt]{|c|c|c|c|c|c|c|c|}{|c|}
+        $C_4^{\mathsf{b}}$ &
+        $C_4^{\mathsf{g}}$ &
+        $C_4^{\mathsf{r}}$ &
+        $C_4^{\mathsf{a}}$ &
+        $C_3^{\mathsf{b}}$ &
+        $C_3^{\mathsf{g}}$ &
         $\cdots$ &
-        0 &
-        $A_1^{\mathsf{a}}$ \\
+        $C_1^{\mathsf{a}}$ \\
       \end{TAB}
 
-      \raisebox{2.5mm}{\texttt{XMM3:} } \begin{TAB}(b,1cm,.8cm)[5pt]{|c|c|c|c|c|c|c|c|c|}{|c|}
+      \raisebox{2.5mm}{\texttt{XMM1:} } \begin{TAB}(b,1cm,.8cm)[5pt]{|c|c|c|c|c|c|c|c|}{|c|}
         0 &
-        $B_2^{\mathsf{b}}$ &
-        0 &
-        $B_2^{\mathsf{g}}$ &
-        0 &
-        $B_2^{\mathsf{r}}$ &
+        $C_4^{\mathsf{b}}$ &
+        $C_4^{\mathsf{g}}$ &
+        $C_4^{\mathsf{r}}$ &
+        $C_4^{\mathsf{a}}$ &
+        $C_3^{\mathsf{b}}$ &
         $\cdots$ &
-        0 &
-        $B_1^{\mathsf{a}}$ \\
+        $C_1^{\mathsf{a}}$ \\
       \end{TAB}
 
-      Luego los comparamos mediante la instrucción \texttt{PCMPGTW}, almacenando la máscara resultante en \texttt{XMM2}. A continuación hacemos lo mismo con las partes altas, usando la instrucción \texttt{PUNPCKHBW} para desempaquetar y guardando el resultado en \texttt{XMM3}. Por último, la instrucción \texttt{PACKSSWB XMM2, XMM3} nos permite obtener en \texttt{XMM2} la máscara que buscábamos, ya que transforma los valores de 2 a 1 byte usando saturación.
+      A continuación puede usarse la instrucción \texttt{PMAXUB XMM1, XMM0} para calcular el máximo entre estos dos registros, obteniendo 
+
+      \raisebox{2.5mm}{\texttt{XMM1:} } \begin{TAB}(r,1cm,.8cm)[5pt]{|c|c|c|c|c|c|c|c|c|}{|c|}
+        \makebox[.8cm]{\texttt{*}} &
+        $\max(C_4^{\mathsf{b}}, C_4^{\mathsf{g}})$ &
+        \makebox[.8cm]{\texttt{*}} &
+        \makebox[.8cm]{\texttt{*}} &
+        \makebox[.8cm]{\texttt{$\cdots$}} &
+        \makebox[.8cm]{\texttt{*}} &
+        $\max(C_1^{\mathsf{b}}, C_1^{\mathsf{g}})$ &
+        \makebox[.8cm]{\texttt{*}} &
+        \makebox[.8cm]{\texttt{*}} & \\
+      \end{TAB}
+
+      Repitiendo el proceso anterior, pero esta vez almacenando el resultado en \texttt{XMM0}, se obtiene
+
+      \raisebox{2.5mm}{\texttt{XMM0:} } \begin{TAB}(r,1cm,.8cm)[5pt]{|c|c|c|c|c|c|c|c|c|}{|c|}
+        \makebox[.7cm]{\texttt{*}} &
+        \makebox[.7cm]{\texttt{*}} &
+        $\max(C_4^{\mathsf{b}}, C_4^{\mathsf{g}}, C_4^{\mathsf{r}})$ &
+        \makebox[.7cm]{\texttt{*}} &
+        \makebox[.7cm]{\texttt{$\cdots$}} &
+        \makebox[.7cm]{\texttt{*}} &
+        \makebox[.7cm]{\texttt{*}} &
+        $\max(C_4^{\mathsf{b}}, C_4^{\mathsf{g}}, C_4^{\mathsf{r}})$ &
+        \makebox[.7cm]{\texttt{*}} & \\
+      \end{TAB}
+
+      A partir de aquí, utilizando la instrucción \texttt{PSHUFB} para replicar el valor calculado, se almacena este máximo en las componentes \textsf{r}, \textsf{g} y \textsf{b} de los píxeles correspondientes de la imagen de destino, y utilizando una máscara adecuada, se define la componente \textsf{a} de todos ellos como 255.
 
   \subsection{Blur gaussiano}
     Este filtro recibe una imagen como entrada y devuelve como salida el resultado de aplicarle una convolución\footnote{Dadas dos funciones $f$ y $g$, una \emph{convolución} $f * g$ es una operación que las transforma en una tercera función: $(f * g)(t) = \int_{-\infty}^{+\infty} f(\tau) g(t - \tau) \,d\tau$ en el caso continuo, $(f * g)_n = \sum_{k=-\infty}^{+\infty} f_k g_{n-k}$ ($n, k \in \mathbb{Z}$) en el caso discreto.} con una función gaussiana, que dependerá de un parámetro $\sigma$ que podrá ser modificado. Dada la naturaleza del problema, trabajaremos con una convolución discreta en dos dimensiones, y como nuestro poder de cómputo es limitado, procesaremos solo una vecindad acotada de cada píxel, cuyo radio quedará determinado por un parámetro configurable $r$. En definitiva, el resultado del filtro será
@@ -91,11 +117,9 @@
 
     \subsubsection{Implementación en lenguaje C}
 
-      Para aplicar el filtro Blur, es necesario que el radio sea menor que la mitad de la cantidad de filas y menor que la mitad de la cantidad de radios. Por esto, verificamos que el radio pasado por parámetro cumpla con estas condiciones.
-      
-      El siguiente paso consiste en crear la matriz de convolución llamando a una función auxiliar, explicada más adelante. 
+      Para aplicar el filtro, es necesario que el parámetro $r$ sea menor que la mitad de la cantidad de filas y menor que la mitad de la cantidad de columnas. Por esto, verificamos que el parámetro cumpla con estas condiciones. El siguiente paso consiste en crear la matriz de convolución del filtro llamando a una función auxiliar, explicada más adelante. 
 
-      Luego, mediante dos ciclos recorremos toda la parte de  la imagen original a la que es posible aplicarle el filtro. Esta parte es la que contempla las filas desde el valor del radio hasta $\mathtt{filas} - (\mathtt{radio} + 1$), y las columnas desde el valor del radio hasta $\mathtt{columnas} - (\mathtt{radio} + 1$). El resto de la imagen no será afectada. 
+      Luego, mediante dos ciclos, se recorre toda la parte de la imagen original a la que es posible aplicarle el filtro. Esta parte es la que contempla las filas desde el valor del radio hasta $\mathtt{filas} - (\mathtt{radio} + 1$), y las columnas desde el valor del radio hasta $\mathtt{columnas} - (\mathtt{radio} + 1$). El resto de la imagen no será afectada. 
 
       DIBUJO
 

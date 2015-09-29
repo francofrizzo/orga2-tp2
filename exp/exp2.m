@@ -29,3 +29,14 @@ ylabel('Tiempo de ejecucion en ciclos de clock','FontSize',12);
 legend('Implementacion en C','Implementacion en ensamblador');
 hold off;
 print('graficos/exp2-tiempo_segun_radio', filetype);
+
+A = blur_c_y ./ (blur_c_x.^2)
+B = blur_asm_y ./ (blur_asm_x.^2)
+hold on;
+plot(A, blur_c_y, 'r');
+plot(B, blur_asm_y);
+xlabel('Radio','FontSize',12);
+ylabel('Tiempo de ejecucion / r^2','FontSize',12);
+legend('Implementacion en C','Implementacion en ensamblador');
+hold off;
+print('graficos/exp2-relacion_tiempo_con_radio_cuadrado', filetype);
