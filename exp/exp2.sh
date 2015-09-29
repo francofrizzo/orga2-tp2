@@ -1,6 +1,6 @@
 #!/bin/bash
 
-radios=$(seq 15 15 185)" 199"
+radios="1 2 3 4"$(seq 3 5 40)
 sigma_fijo=5
 
 repeticiones=1

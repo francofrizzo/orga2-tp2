@@ -3,7 +3,7 @@
 LC_NUMERIC="en_US.UTF-8"
 
 sigmas=".5 1 1.5 "$(seq 3 3 48)" 50"
-r_fijo=50
+r_fijo=10
 
 repeticiones=1
 implementaciones="asm c"
@@ -23,7 +23,7 @@ while getopts 'n:vhcr:' opt; do
        echo "        -n <núm>  Determina la cantidad de veces que se realizará el expe-"
        echo "                    rimento (1 por defecto)."
        echo "        -v        Muestra más información por pantalla."
-       echo "        -r        Determina el valor del parámetro radio (50 por defecto)."
+       echo "        -r        Determina el valor del parámetro radio (10 por defecto)."
        echo ""
        exit 0 ;;
     c) if [ -d $(dirname $0)/exp3 ]; then rm $(dirname $0)/exp3 -R; fi
