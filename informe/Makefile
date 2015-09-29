@@ -1,4 +1,4 @@
-all: pdf clean
+all: pdf see
 
 pdf:
 	latexmk -pdf -quiet informe.tex
@@ -6,5 +6,5 @@ pdf:
 clean:
 	latexmk -c
 
-see: pdf clean
+see:
 	evince informe.pdf
