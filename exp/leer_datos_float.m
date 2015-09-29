@@ -1,8 +1,8 @@
-function [x, y, e, c] = leer_datos(file)
+function [x, y, e, c] = leer_datos_float(file)
     data = fopen(file);
     c = fscanf(data, '%lu', 1);
     cant = c + 1;
-    A = fscanf(data, '%lu', [cant Inf]);
+    A = fscanf(data, '%f', [cant Inf]);
     A = A';
     [Y, I] = sort(A(1,:)); % ordenamos A de acuerdo a su primer columna
     A = A(:,I);

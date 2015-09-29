@@ -58,8 +58,8 @@ diff_asm:
         psubusb xmm0, xmm1                 ; xmm0 <- src - src_2
         psubusb xmm1, xmm3                 ; xmm1 <- src_2 - src
         pand xmm0, xmm2                    ; me quedo con los que corresponden de src
-        vpandn xmm1, xmm2, xmm1            ; me quedo con los que corresponden de src_2
-        por xmm0, xmm1                     ; combino las diferencias
+        pandn xmm2, xmm1                   ; me quedo con los que corresponden de src_2
+        por xmm0, xmm2                     ; combino las diferencias
 
         ; xmm0 = módulo de la diferencia de píxeles
 

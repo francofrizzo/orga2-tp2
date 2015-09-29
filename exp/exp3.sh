@@ -19,14 +19,14 @@ while getopts 'n:vhcr:' opt; do
        echo ""
        echo "    Opciones disponibles:"
        echo "        -c        Elimina los archivos generados por el experimento."
-       echo "        -h        Imprime este texto de ayuda"
+       echo "        -h        Imprime este texto de ayuda."
        echo "        -n <núm>  Determina la cantidad de veces que se realizará el expe-"
        echo "                    rimento (1 por defecto)."
        echo "        -v        Muestra más información por pantalla."
        echo "        -r        Determina el valor del parámetro radio (50 por defecto)."
        echo ""
        exit 0 ;;
-    c) rm $(dirname $0)/exp3 -R
+    c) if [ -d $(dirname $0)/exp3 ]; then rm $(dirname $0)/exp3 -R; fi
        exit 0 ;;
     r) r_fijo=$OPTARG ;;
   esac
@@ -52,6 +52,7 @@ echo "Corriendo instancias del experimento..."
 for imp in $implementaciones; do
     mkdir -p $(dirname $0)/exp3/out/blur-$imp
     echo "   Implementación: $imp   Imagen: phoebe1   Radio: $r_fijo"
+    printf "%d\n" $repeticiones >> $(dirname $0)/exp3/data-blur-$imp.txt
     for s in $sigmas; do
         printf "%.2g" "$s" >> $(dirname $0)/exp3/data-blur-$imp.txt
         if [ "$verbose" = true ]; then

@@ -18,7 +18,7 @@ while getopts 'n:vhcf:i:' opt; do
        echo "    Opciones disponibles:"
        echo "        -c        Elimina los archivos generados por el experimento."
        echo "        -f <blur|diff|both>    Filtro a ejecutar (ambos por defecto)."
-       echo "        -h        Imprime este texto de ayuda"
+       echo "        -h        Imprime este texto de ayuda."
        echo "        -i        Lista de las implementaciones de los filtros que se ejecuta-"
        echo "                  rán, separadas por comas. Valores posibles: c, asm, c2, asm2."
        echo "                  Por defecto, se ejecutan c y asm."
@@ -27,7 +27,7 @@ while getopts 'n:vhcf:i:' opt; do
        echo "        -v        Muestra más información por pantalla."
        echo ""
        exit 0 ;;
-    c) rm $(dirname $0)/exp1 -R
+    c) if [ -d $(dirname $0)/exp1 ]; then rm $(dirname $0)/exp1 -R; fi
        exit 0 ;;
     f) filtros=$OPTARG ;;
     i) imp_diff=$(echo $OPTARG | sed s/,/\\n/g) ; imp_blur=$(echo $OPTARG | sed s/,/\\n/g) ;;

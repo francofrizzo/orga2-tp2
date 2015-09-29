@@ -17,14 +17,14 @@ while getopts 'n:vhcs:' opt; do
        echo ""
        echo "    Opciones disponibles:"
        echo "        -c        Elimina los archivos generados por el experimento."
-       echo "        -h        Imprime este texto de ayuda"
+       echo "        -h        Imprime este texto de ayuda."
        echo "        -n <núm>  Determina la cantidad de veces que se realizará el expe-"
        echo "                    rimento (1 por defecto)."
        echo "        -v        Muestra más información por pantalla."
        echo "        -s        Determina el valor del parámetro sigma (5 por defecto)."
        echo ""
        exit 0 ;;
-    c) rm $(dirname $0)/exp2 -R
+    c) if [ -d $(dirname $0)/exp2 ]; then rm $(dirname $0)/exp2 -R; fi
        exit 0 ;;
     s) sigma_fijo=$OPTARG ;;
   esac
