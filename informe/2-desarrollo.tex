@@ -119,81 +119,78 @@
 
       Para aplicar el filtro, es necesario que el parámetro $r$ sea menor que la mitad de la cantidad de filas y menor que la mitad de la cantidad de columnas. Por esto, verificamos que el parámetro cumpla con estas condiciones. El siguiente paso consiste en crear la matriz de convolución del filtro llamando a una función auxiliar, explicada más adelante. 
 
-      Luego, mediante dos ciclos, se recorre toda la parte de la imagen original a la que es posible aplicarle el filtro. Esta parte es la que contempla las filas desde el valor del radio hasta $\mathtt{filas} - (\mathtt{radio} + 1$), y las columnas desde el valor del radio hasta $\mathtt{columnas} - (\mathtt{radio} + 1$). El resto de la imagen no será afectada. 
+      Luego, mediante dos ciclos, se recorre toda la parte de la imagen original a la que es posible aplicarle el filtro. Esta parte es la que contempla las filas desde el valor del radio hasta $filas - (r + 1$), y las columnas desde el valor del radio hasta $columnas - (r + 1$). El resto de la imagen no será afectada. 
 
       DIBUJO
 
-      En cada paso de esta iteración, se va a llamar a otra función que se ocupará de modificar cada píxel correctamente, utilizando la matriz de convolución creada anteriormente. 
+      En cada paso de esta iteración, se llama a la función \texttt{afectarPixel}, que se ocupa de modificar cada píxel correctamente, utilizando la matriz de convolución creada anteriormente. 
 
-      \paragraph{Matriz De Convolución} \mbox{} \\
-        En está parte del algoritmo calculamos la matriz de convolución. Para ello, pedimos $(2 \times \mathtt{radio} + 1) \times (2 \times \mathtt{radio} + 1) \times 4$ Bytes de memoria, lugar que va a ocupar la matriz ya que su altura es $(2 \times \mathtt{radio} + 1)$ y el ancho es de $(2 \times \mathtt{radio} + 1) \times 4$ (cada píxel ocupa 4 Bytes).
+      \subsubsection*{Función \texttt{matrizDeConvolucion}}
+
+        En esta parte del algoritmo se calcula la matriz de la convolución. Para ello, en primer lugar, se piden $4 \times (2r + 1)^2$ bytes de memoria, lugar que va a ocupar la matriz ya que su altura es $2r + 1$ y su ancho, $4 \times (2r 1)$ (porque cada píxel ocupa 4 bytes).
         
-        Utilizamos dos ciclos, ambos que van desde 0 hasta $(2 \times \mathtt{radio} + 1)$. 
+        Se utilizan dos ciclos; ambos van desde 0 hasta $2r + 1$. 
         
         DIBUJO1MC
 
-        En cada paso, calculamos la función gaussiana con el \texttt{sigma}, \texttt{radio}, \texttt{i} y \texttt{j} correspondientes donde \texttt{i} representa la fila y \texttt{j} la columna.  
-        
-        CUENTAMC
-    
-        Luego, coloca el resultado en la fila \texttt{i}, columna \texttt{j} de la matriz. Finalmente, se devuelve un puntero a la primera posición de la matriz.
+        En cada paso, se calcula la función gaussiana con el $\sigma$, $r$, $i$ y $j$ correspondientes, donde $i$ representa la fila y $j$ la columna. Luego, se coloca el resultado en la fila $i$, columna $j$ de la matriz. Finalmente, se devuelve un puntero a la primera posición de la matriz.
 
-      \paragraph{Afectar Pixel} \mbox{} \\
-        Primero se inicializan 3 variables donde luego se van a almacenar las sumas que corresponden a cada componente del pixel a afectar (b, r y g). 
+      \subsubsection*{Función \texttt{afectarPixel}}
+        Primero se inicializan 3 variables donde luego se van a almacenar las sumas que corresponden a cada componente del píxel a afectar (\textsf{b}, \textsf{g} y \textsf{r}). 
 
-        Seguidamente, se utilizan dos ciclos para recorrer la matriz de convolución y la parte de la imágen correspondiente a los vecinos del píxel a afectar.  
+        Seguidamente, se utilizan dos ciclos para recorrer la matriz de convolución y la parte de la imagen correspondiente a los vecinos del píxel a afectar. 
         
-        Estos van desde $0$ hasta $(2 \times \mathtt{radio})$, para recorrer las filas, y desde $0$ hasta $(2 \times \mathtt{radio} \times 4)$ para recorrer las columnas. En cada paso se multiplica el valor de las componentes del píxel observado por el valor de la matriz de convolución. El resultado de esta multiplicación se suma en las 3 variables creadas en el principio. 
+        Estos van desde $0$ hasta $(2r)$, para recorrer las filas, y desde $0$ hasta $(2r \times 4)$ para recorrer las columnas. En cada paso se multiplica el valor de las componentes del píxel observado por el valor de la matriz de convolución. El resultado de esta multiplicación se suma en las 3 variables creadas en el principio. 
         
-        Finalmente, se copia el valor de cada variable en cada componente del píxel en la imagen destino. Luego, en la componente “transparencia” se coloca el valor 255.  
+        Finalmente, se copia el valor de cada variable en cada componente del píxel en la imagen destino. Luego, en la componente \textsf{a} se coloca el valor 255.  
 
     \subsubsection{Implementación en lenguaje ensamblador} 
       Este algoritmo se ocupa de recorrer toda la porción de la imagen a la que es posible aplicarle el filtro. 
       
-      Al igual que en la implementación en C, hace una comparación para revisar si el radio es válido. 
+      Al igual que en la implementación en C, primero se hace una comparación para revisar si el radio es válido. 
       
-      Luego, utilizando la instrucción CALL, hace un llamado a la función matrizDeConvolución (implementada en C) la cual le devuelve un puntero a la matriz de convolución creada. 
+      Luego, utilizando la instrucción \texttt{CALL}, se hace un llamado a la función \texttt{matrizDeConvolución} (implementada en C), la cual devuelve un puntero a la matriz de convolución creada. 
       
-      Posteriormente, se utilizan dos ciclos para recorrer la porción de la imágen. Estos utilizan los registros r8 para recorrer las columnas y r9 para recorrer las filas.
+      Posteriormente, se utilizan dos ciclos para recorrer la porción a modificar de la imagen. Estos utilizan los registros \texttt{R8} para recorrer las columnas y \texttt{R9} para recorrer las filas.
   
       DIBUJO1BLURASM
       
-      En cada paso del ciclo, utilizando nuevamente la instrucción CALL, se realiza un llamado a la función afectarPixel (implementada en assembler) que se ocupa de modificar el píxel correspondiente. 
+      En cada paso del ciclo, utilizando nuevamente la instrucción \texttt{CALL}, se realiza un llamado a la función afectarPixel (implementada en assembler) que se ocupa de modificar el píxel correspondiente. 
 
-      \paragraph{Afectar Pixel}\mbox{} \\
-        El primer paso de este algoritmo es encontrar el puntero al píxel que se debe afectar en la imagen original y otro puntero al mismo píxel pero en la imagen destino. Estos punteros son guardados en los registros r12 y r14 respectivamente.   
+      \paragraph{Función \texttt{afectarPixel}}
+        El primer paso de este algoritmo es encontrar el puntero al píxel que se debe afectar en la imagen original y otro puntero al mismo píxel pero en la imagen destino. Estos punteros son guardados en los registros \texttt{R12} y \texttt{R14}, respectivamente.   
 
-        Llamaremos submatriz imagen a la porción de la imagen original que se debe utilizar para que junto con la matriz de convolución se obtenga el nuevo valor del píxel. Esta submatriz es la que contiene al píxel a modificar en el centro y su tamaño es el mismo de la matriz de convolución. 
+        Llamaremos \emph{submatriz imagen} a la porción de la imagen original que se debe utilizar para que, junto con la matriz de convolución, se obtenga el nuevo valor del píxel. Esta submatriz es la que contiene al píxel a modificar en el centro y su tamaño es el mismo que el de la matriz de convolución. 
         
         DIBUJO1AFECTARPIXELASM
 
-        Luego, se debe encontrar el puntero al primer píxel de la submatriz imagen. Esto se calcula de la siguiente manera: $r12 - 4 \times (\mathtt{radio} - \mathtt{radio} \times \mathtt{columnas})$. Este puntero se encuentra en el registro r13 y es utilizado para recorrer la submatriz. 
+        Luego, se debe encontrar el puntero al primer píxel de la submatriz imagen. Esto se calcula de la siguiente manera: $\mathtt{R12} - 4 \times (r - r \times columnas)$. Este puntero se encuentra en el registro r13 y es utilizado para recorrer la submatriz. 
 
-        En el registro r11 se guarda la cantidad total de píxeles que componen la submatriz imagen. 
+        En el registro \texttt{R11} se guarda la cantidad total de píxeles que componen la submatriz imagen. 
 
-              $R11 = (2 \times \mathtt{radio} + 1)^{2}$  
+              $\mathtt{R11} = (2 \times r + 1)^{2}$  
         
-        El registro r15 contiene el tamaño de las filas.
+        El registro \texttt{R15} contiene el tamaño de las filas.
         
-              $R15 =(2 \times \mathtt{radio}  + 1)$.
+              $\mathtt{R15} = (2 \times r + 1)$
 
         Estos últimos dos se utilizan como registros contadores.
 
-        A continuación, se recorren por filas la submatriz imagen y la matriz de convolución a la vez. R11 se utiliza para saber cuando finalizar el bucle, es decir, cuando ya se observaron todos los píxeles. Estos son procesados utilizando instrucciones SSE y registros del tipo \texttt{XMM}. En cada uno de estos registros es posible guardar 4 píxeles, ya que cada píxel ocupa 4 bytes. 
+        A continuación, se recorren por filas la submatriz imagen y la matriz de convolución a la vez. \texttt{R11} se utiliza para saber cuando finalizar el bucle, es decir, cuando ya se observaron todos los píxeles. Estos son procesados utilizando instrucciones \acr{SSE} y registros del tipo \texttt{XMM}. En cada uno de estos registros es posible guardar 4 píxeles, ya que cada píxel ocupa 4 bytes. 
 
         DIBUJO2AFECTARPIXELASM
   
-        En cada paso de este ciclo se considera una fila, utilizando r15 para saber cuando termina. Se toman 4 píxeles de la submatriz imagen y los correspondientes 4 de la matriz de convolución. Luego de desempaquetar los píxeles se realiza la multiplicación de cada componente (r, b o g) con el valor de la matriz de convolución que le pertenece. El resultado de cada producto se suma al registro \texttt{XMM6}. 
+        En cada paso de este ciclo se considera una fila, utilizando \texttt{R15} para saber cuándo termina. Se toman 4 píxeles de la submatriz imagen y los correspondientes 4 de la matriz de convolución. Luego de desempaquetar los píxeles se realiza la multiplicación de cada componente (\textsf{b}, \textsf{g} o \textsf{r}) con el valor de la matriz de convolución que le corresponde. El resultado de cada producto se suma al registro \texttt{XMM6}. 
 
         DIBUJO3AFECTARPIXELASM  
 
         Se puede notar que el tamaño de las filas es congruente a 1 o 3 módulo 4. 
         CUENTA1. Por lo tanto, se procesan de a 4 píxeles hasta llegar a alguno de los dos casos borde posibles: cuando queda 1 píxel por computar o cuando quedan 3. 
         
-        La solución a este problema es tomar y desempaquetar los píxeles de la submatriz imagen que todavía no fueron procesados junto con sus siguientes, hasta completar 4. Esto es así en todos los casos, excepto en el que los píxeles restantes son los últimos de la submatriz imágen (es decir, los que se corresponden con la última fila). En este caso, se toman los píxeles anteriores, ya que de otra forma, si el píxel a modificar se encuentra en alguna de las 3 últimas posiciones se accedería a posiciones de memoria fuera de la imagen. Estos píxeles no se tienen en cuenta a la hora de realizar el cálculo. 
-          
+        La solución a este problema es tomar y desempaquetar los píxeles de la submatriz imagen que todavía no fueron procesados junto con sus siguientes, hasta completar 4. Esto es así en todos los casos, excepto en el que los píxeles restantes son los últimos de la submatriz imagen (es decir, los que se corresponden con la última fila). En este caso, se toman los píxeles anteriores, ya que de otra forma, si el píxel a modificar se encontrase en alguna de las 3 últimas posiciones se accedería a posiciones de memoria fuera de la imagen. Estos píxeles no se tienen en cuenta a la hora de realizar el cálculo.
+
         Esto mismo se realiza para la matriz de convolución.
           
         DIBUJO4AFECTARPIXELASM
 
-        Al finalizar el ciclo, se tiene en \texttt{XMM6} el valor esperado para cada componente (r, b y g) del píxel a afectar en floats. Primero lo pasamos a integers y despues en la componente “transparencia” se coloca un 255, y se empaqueta \texttt{XMM6} para luego copiarlo en la posición del píxel que se quiere modificar en la imagen destino. 
+        Al finalizar el ciclo, se tiene en \texttt{XMM6} el valor esperado para cada componente (\textsf{b}, \textsf{g} y \textsf{r}) del píxel a afectar, en punto flotante de 32 bits. Primero se pasan estos valores a enteros; después, en la componente \textsf{a} se coloca un 255, y luego se empaqueta \texttt{XMM6} para copiarlo en la posición del píxel que se quiere modificar en la imagen destino.
