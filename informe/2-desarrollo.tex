@@ -82,7 +82,7 @@
         \makebox[.8cm]{\texttt{*}} &
         $\max(C_1^{\mathsf{b}}, C_1^{\mathsf{g}})$ &
         \makebox[.8cm]{\texttt{*}} &
-        \makebox[.8cm]{\texttt{*}} & \\
+        \makebox[.8cm]{\texttt{*}}  \\
       \end{TAB}
 
       Repitiendo el proceso anterior, pero esta vez almacenando el resultado en \texttt{XMM0}, se obtiene
@@ -96,7 +96,7 @@
         \makebox[.7cm]{\texttt{*}} &
         \makebox[.7cm]{\texttt{*}} &
         $\max(C_4^{\mathsf{b}}, C_4^{\mathsf{g}}, C_4^{\mathsf{r}})$ &
-        \makebox[.7cm]{\texttt{*}} & \\
+        \makebox[.7cm]{\texttt{*}}  \\
       \end{TAB}
 
       A partir de aquí, utilizando la instrucción \texttt{PSHUFB} para replicar el valor calculado, se almacena este máximo en las componentes \textsf{r}, \textsf{g} y \textsf{b} de los píxeles correspondientes de la imagen de destino, y utilizando una máscara adecuada, se define la componente \textsf{a} de todos ellos como 255.
@@ -121,7 +121,9 @@
 
       Luego, mediante dos ciclos, se recorre toda la parte de la imagen original a la que es posible aplicarle el filtro. Esta parte es la que contempla las filas desde el valor del radio hasta $\mathtt{filas} - (\mathtt{radio} + 1$), y las columnas desde el valor del radio hasta $\mathtt{columnas} - (\mathtt{radio} + 1$). El resto de la imagen no será afectada. 
 
-      DIBUJO
+        {\centering \begin{tabular}{c}
+          \includegraphics[width=7cm]{./imagenes/1.png} \\
+        \end{tabular}}
 
       En cada paso de esta iteración, se va a llamar a otra función que se ocupará de modificar cada píxel correctamente, utilizando la matriz de convolución creada anteriormente. 
 
@@ -130,7 +132,9 @@
         
         Utilizamos dos ciclos, ambos que van desde 0 hasta $(2 \times \mathtt{radio} + 1)$. 
         
-        DIBUJO1MC
+        {\centering \begin{tabular}{c}
+          \includegraphics[width=7cm]{./imagenes/2.png} \\
+        \end{tabular}}
 
         En cada paso, calculamos la función gaussiana con el \texttt{sigma}, \texttt{radio}, \texttt{i} y \texttt{j} correspondientes donde \texttt{i} representa la fila y \texttt{j} la columna.  
         
@@ -156,8 +160,12 @@
       
       Posteriormente, se utilizan dos ciclos para recorrer la porción de la imágen. Estos utilizan los registros r8 para recorrer las columnas y r9 para recorrer las filas.
   
-      DIBUJO1BLURASM
-      
+
+
+        {\centering \begin{tabular}{c}
+          \includegraphics[width=7cm]{./imagenes/4bis.png} \\
+        \end{tabular}}
+
       En cada paso del ciclo, utilizando nuevamente la instrucción CALL, se realiza un llamado a la función afectarPixel (implementada en assembler) que se ocupa de modificar el píxel correspondiente. 
 
       \paragraph{Afectar Pixel}\mbox{} \\
@@ -165,7 +173,9 @@
 
         Llamaremos submatriz imagen a la porción de la imagen original que se debe utilizar para que junto con la matriz de convolución se obtenga el nuevo valor del píxel. Esta submatriz es la que contiene al píxel a modificar en el centro y su tamaño es el mismo de la matriz de convolución. 
         
-        DIBUJO1AFECTARPIXELASM
+        {\centering \begin{tabular}{c}
+          \includegraphics[width=7cm]{./imagenes/5.png} \\
+        \end{tabular}}
 
         Luego, se debe encontrar el puntero al primer píxel de la submatriz imagen. Esto se calcula de la siguiente manera: $r12 - 4 \times (\mathtt{radio} - \mathtt{radio} \times \mathtt{columnas})$. Este puntero se encuentra en el registro r13 y es utilizado para recorrer la submatriz. 
 
@@ -181,11 +191,15 @@
 
         A continuación, se recorren por filas la submatriz imagen y la matriz de convolución a la vez. R11 se utiliza para saber cuando finalizar el bucle, es decir, cuando ya se observaron todos los píxeles. Estos son procesados utilizando instrucciones SSE y registros del tipo \texttt{XMM}. En cada uno de estos registros es posible guardar 4 píxeles, ya que cada píxel ocupa 4 bytes. 
 
-        DIBUJO2AFECTARPIXELASM
+        {\centering \begin{tabular}{c}
+          \includegraphics[width=7cm]{./imagenes/6.png} \\
+        \end{tabular}}
   
         En cada paso de este ciclo se considera una fila, utilizando r15 para saber cuando termina. Se toman 4 píxeles de la submatriz imagen y los correspondientes 4 de la matriz de convolución. Luego de desempaquetar los píxeles se realiza la multiplicación de cada componente (r, b o g) con el valor de la matriz de convolución que le pertenece. El resultado de cada producto se suma al registro \texttt{XMM6}. 
 
-        DIBUJO3AFECTARPIXELASM  
+        {\centering \begin{tabular}{c}
+          \includegraphics[width=7cm]{./imagenes/3bis.png} \\
+        \end{tabular}}
 
         Se puede notar que el tamaño de las filas es congruente a 1 o 3 módulo 4. 
         CUENTA1. Por lo tanto, se procesan de a 4 píxeles hasta llegar a alguno de los dos casos borde posibles: cuando queda 1 píxel por computar o cuando quedan 3. 
@@ -194,6 +208,10 @@
           
         Esto mismo se realiza para la matriz de convolución.
           
-        DIBUJO4AFECTARPIXELASM
+        {\centering \begin{tabular}{cc}
+          \includegraphics[width=7cm]{./imagenes/7.png} &
+          \includegraphics[width=7cm]{./imagenes/8.png}
+          \\
+        \end{tabular}}
 
         Al finalizar el ciclo, se tiene en \texttt{XMM6} el valor esperado para cada componente (r, b y g) del píxel a afectar en floats. Primero lo pasamos a integers y despues en la componente “transparencia” se coloca un 255, y se empaqueta \texttt{XMM6} para luego copiarlo en la posición del píxel que se quiere modificar en la imagen destino. 
