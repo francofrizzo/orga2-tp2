@@ -16,9 +16,10 @@
     \end{cases} \]
 
     \subsubsection{Implementación en lenguaje C}
+      La implementación de este filtro en lenguaje C es sumamente sencilla. Ambas imágenes de entrada se recorren simultáneamente mediante dos ciclos anidados, que recorren las filas y las columnas, respectivamente. Para las componentes \textsf{r}, \textsf{g} y \textsf{b} de cada píxel, se calcula el valor absoluto de la diferencia entre los valores correspondientes a ambas imágenes. Luego, se calcula el máximo entre estos tres valores, que se guarda como el valor de las componentes \textsf{r}, \textsf{g} y \textsf{b} para el píxel correspondiente en la imagen de salida. Por último, la componente \textsf{a} de dicho píxel se define como 255.
 
     \subsubsection{Implementación en lenguaje ensamblador}
-      Dado que los registros \texttt{XMM} son de 16 bytes, se los puede utilizar para procesar 4 píxeles de las imágenes en paralelo, reduciendo la cantidad de iteraciones del algoritmo y, particularmente, de accesos a memoria necesarios para completar el algoritmo.
+      Al implementar el filtro en lenguaje ensamblador, es posible aprovechar las ventajas que brinda el modelo \acr{SIMD}. En particular, dado que los registros \texttt{XMM} son de 16 bytes, se los puede utilizar para procesar 4 píxeles de las imágenes en paralelo, reduciendo la cantidad de iteraciones del algoritmo y, particularmente, de accesos a memoria necesarios para completar el algoritmo.
 
       Nuestra implementación del filtro consiste principalmente de un ciclo que itera sobre la imagen. Al comienzo de cada ejecución, se copian 4 píxeles de $I_1$ al registro \texttt{XMM0}, y los correspondientes 4 píxeles de $I_2$ a \texttt{XMM1}.
 
@@ -71,7 +72,6 @@
         0 &
         $B_1^{\mathsf{a}}$ \\
       \end{TAB}
-
 
       Luego los comparamos mediante la instrucción \texttt{PCMPGTW}, almacenando la máscara resultante en \texttt{XMM2}. A continuación hacemos lo mismo con las partes altas, usando la instrucción \texttt{PUNPCKHBW} para desempaquetar y guardando el resultado en \texttt{XMM3}. Por último, la instrucción \texttt{PACKSSWB XMM2, XMM3} nos permite obtener en \texttt{XMM2} la máscara que buscábamos, ya que transforma los valores de 2 a 1 byte usando saturación.
 

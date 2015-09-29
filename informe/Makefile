@@ -5,3 +5,6 @@ pdf:
 
 clean:
 	latexmk -c
+
+see: pdf clean
+	evince informe.pdf
