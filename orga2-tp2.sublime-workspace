@@ -1,0 +1,496 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"main",
+				"main-menu"
+			],
+			[
+				"text",
+				"text-shadow"
+			],
+			[
+				"lgoo",
+				"logoAnimation"
+			],
+			[
+				"eas",
+				"easeOut"
+			],
+			[
+				"margin",
+				"margin"
+			],
+			[
+				"inl",
+				"inline-block"
+			],
+			[
+				"up",
+				"upper-alpha"
+			],
+			[
+				"font-",
+				"font-size"
+			],
+			[
+				"font",
+				"font-family"
+			],
+			[
+				"fon",
+				"font-family"
+			],
+			[
+				"default",
+				"default_lang"
+			],
+			[
+				"curr",
+				"current_language"
+			]
+		]
+	},
+	"buffers":
+	[
+	],
+	"build_system": "",
+	"build_system_choices":
+	[
+		[
+			[
+				[
+					"Packages/LaTeXing/LaTeX.sublime-build",
+					""
+				],
+				[
+					"Packages/LaTeXing/LaTeX.sublime-build",
+					"Clean up Files"
+				],
+				[
+					"Packages/LaTeXTools/LaTeX.sublime-build",
+					""
+				]
+			],
+			[
+				"Packages/LaTeXing/LaTeX.sublime-build",
+				""
+			]
+		]
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 423.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"convert to tabs",
+				"Indentation: Convert to Tabs"
+			],
+			[
+				"trailin",
+				"Trailing Spaces: Delete Trailing Spaces"
+			],
+			[
+				"settings",
+				"Preferences: Settings - User"
+			],
+			[
+				"unicode",
+				"Character Table: Insert Unicode Character"
+			],
+			[
+				"color",
+				"ColorSchemeSelector: Select Color Scheme"
+			],
+			[
+				"Syntax Latex",
+				"Set Syntax: LaTeXing"
+			],
+			[
+				"latex clean",
+				"Build With: LaTeX - Clean up Files"
+			],
+			[
+				"word",
+				"Word Wrap: Toggle"
+			],
+			[
+				"sass",
+				"Set Syntax: Sass"
+			],
+			[
+				"remove",
+				"Package Control: Remove Package"
+			]
+		],
+		"width": 542.0
+	},
+	"console":
+	{
+		"height": 166.0,
+		"history":
+		[
+			"import urllib.request,os,hashlib; h = '2915d1851351e5ee549c20394736b442' + '8bc59f460fa1548d1514676163dafc88'; pf = 'Package Control.sublime-package'; ipp = sublime.installed_packages_path(); urllib.request.install_opener( urllib.request.build_opener( urllib.request.ProxyHandler()) ); by = urllib.request.urlopen( 'http://packagecontrol.io/' + pf.replace(' ', '%20')).read(); dh = hashlib.sha256(by).hexdigest(); print('Error validating download (got %s instead of %s), please try manual install' % (dh, h)) if dh != h else open(os.path.join( ipp, pf), 'wb' ).write(by)",
+			" import urllib.request,os,hashlib; h = '2915d1851351e5ee549c20394736b442' + '8bc59f460fa1548d1514676163dafc88'; pf = 'Package Control.sublime-package'; ipp = sublime.installed_packages_path(); urllib.request.install_opener( urllib.request.build_opener( urllib.request.ProxyHandler()) ); by = urllib.request.urlopen( 'http://packagecontrol.io/' + pf.replace(' ', '%20')).read(); dh = hashlib.sha256(by).hexdigest(); print('Error validating download (got %s instead of %s), please try manual install' % (dh, h)) if dh != h else open(os.path.join( ipp, pf), 'wb' ).write(by) "
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"expanded_folders":
+	[
+		"/home/franco/Source/orga2-tp2"
+	],
+	"file_history":
+	[
+		"/home/franco/Facultad/materias/metNum/tp1/docs/informe/secciones/3-experimentos.tex",
+		"/home/franco/Facultad/materias/metNum/tp1/docs/informe/informe.tex",
+		"/home/franco/Facultad/materias/metNum/tp3/docs/informe/informe.tex",
+		"/home/franco/Facultad/materias/metNum/tp1/docs/informe/secciones/2-desarrollo.tex",
+		"/home/franco/.config/sublime-text-3/Packages/User/Preferences.sublime-settings",
+		"/home/franco/.config/sublime-text-3/Packages/Default/Preferences.sublime-settings",
+		"/home/franco/Facultad/materias/metNum/tp1/docs/informe/secciones/1-intro.tex",
+		"/home/franco/Facultad/materias/metNum/tp1/docs/informe/.gitignore",
+		"/home/franco/Facultad/materias/metNum/tp3/docs/informe/secciones/2-desarrollo.tex",
+		"/home/franco/Facultad/materias/metNum/tp1/docs/informe/secciones/2.1-desarrollo.tex",
+		"/home/franco/Facultad/materias/metNum/tp1/docs/informe/referencias.bib",
+		"/home/franco/Facultad/materias/metNum/tp3/docs/informe/secciones/1-intro.tex",
+		"/home/franco/Facultad/materias/metNum/tp1/docs/tp1.tex",
+		"/home/franco/Facultad/materias/metNum/tp1/docs/informe/apendices/a-enunciado.tex",
+		"/media/franco/Seagate Expansion Drive/Haphi/Pueblo-Benegas/reglamento/working/parte1/interno_actual_pb.txt",
+		"/media/franco/Seagate Expansion Drive/Haphi/Pueblo-Benegas/reglamento/working/parte1/parte1.final.txt",
+		"/media/franco/Seagate Expansion Drive/Haphi/Pueblo-Benegas/reglamento/working/parte1/conforme_cod_civil.txt",
+		"/media/franco/Seagate Expansion Drive/Haphi/Pueblo-Benegas/reglamento/working/parte1/interno_los_huemules_seccionado.txt",
+		"/home/franco/Downloads/MUECOPI.csv",
+		"/home/franco/Downloads/muecopi.csv",
+		"/home/franco/Downloads/headers",
+		"/home/franco/Desktop/untitled.py3",
+		"/media/data/Haphi/websites/Corral-de-Caballos/src/stylesheets/partials/_colors.scss",
+		"/media/data/Haphi/websites/Corral-de-Caballos/src/stylesheets/main.scss",
+		"/media/data/Haphi/websites/Corral-de-Caballos/src/includes/home.php",
+		"/home/franco/Downloads/converted",
+		"/media/data/Haphi/websites/Corral-de-Caballos/src/images/logo.min.svg",
+		"/media/data/Haphi/websites/Corral-de-Caballos/src/stylesheets/partials/_mixins.scss",
+		"/media/data/Haphi/websites/Corral-de-Caballos/src/config.php",
+		"/media/data/Haphi/websites/Corral-de-Caballos/src/stylesheets/partials/_fonts.scss",
+		"/media/data/Haphi/websites/Corral-de-Caballos/src/stylesheets/main.css.map",
+		"/media/data/Haphi/websites/Corral-de-Caballos/src/images/animated-logo.svg",
+		"/media/data/Haphi/websites/Corral-de-Caballos/src/stylesheets/partials/_reset.scss",
+		"/media/data/Haphi/websites/Corral-de-Caballos/src/stylesheets/main.css",
+		"/media/data/Haphi/websites/Corral-de-Caballos/src/inc/home.php",
+		"/media/data/Haphi/websites/Corral-de-Caballos/src/index.php",
+		"/media/data/Haphi/websites/Corral-de-Caballos/src/lang_config.php",
+		"/media/data/Haphi/websites/Corral-de-Caballos/src/stylesheets/main.sass",
+		"/media/franco/Windows/wamp/bin/apache/apache2.4.9/conf/extra/httpd-vhosts.conf",
+		"/home/franco/Server/corraldecaballos/index.html",
+		"/opt/lampp/apache2/conf/httpd.conf",
+		"/etc/hosts",
+		"/home/franco/.bashrc",
+		"/home/franco/.themes/Ambiance-Flat/gtk-3.0/gtk-main.css",
+		"/home/franco/.themes/Ambiance-Flat/gtk-3.0/gtk-widgets-borders.css",
+		"/home/franco/.themes/Ambiance-Flat/gtk-3.0/gtk-widgets.css",
+		"/home/franco/.config/touchegg/touchegg.conf",
+		"/home/franco/.config/gtk-3.0/gtk.css"
+	],
+	"find":
+	{
+		"height": 35.0
+	},
+	"find_in_files":
+	{
+		"height": 0.0,
+		"where_history":
+		[
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": true,
+		"find_history":
+		[
+			"r*",
+			"c/exp/graficos/exp",
+			"[width=6cm]",
+			"Caso de contraste",
+			" Instancia de co",
+			"rad-",
+			"}\\rbrace",
+			"lbrace",
+			"estándar",
+			"time",
+			"ctime",
+			"librería",
+			"\\texttt{ctime} de \\texttt{C++}",
+			"\\end{min",
+			"\\end{center}",
+			"begin{center}",
+			"width=4.5cm",
+			"\n            \\end{minipage}\n            \\vspace{1em}\n            \\begin{minipage}{\\textwidth}",
+			"turas variables",
+			"minipage",
+			"\\begin{minipage}",
+			"samepage",
+			"center",
+			"subsubsection",
+			"Temperat",
+			"height",
+			"paragraph",
+			"Caso A",
+			"caption",
+			"}  ",
+			"bular}}",
+			"{\\centering",
+			"subsubsection*",
+			"paragraph",
+			"iso",
+			"\\subsubsection*{Ex",
+			"\\subsubsection*{E",
+			"fuera",
+			"iotta",
+			"iotta_k",
+			"rho",
+			"i",
+			"tilde",
+			"color",
+			"llegué",
+			"pdf",
+			"\\:",
+			"\\\\\\;",
+			"\\.",
+			"discretizac",
+			"A} \\in \\",
+			"itemize",
+			"strong",
+			"u + 1",
+			"$A",
+			"A^",
+			"A",
+			"u - 1",
+			"A_",
+			"Phi",
+			"des:",
+			"des\\:",
+			"paredes",
+			"des",
+			"color",
+			"hasta",
+			"n[",
+			"enumerate",
+			"\\[no",
+			"\\mat{A}^",
+			"A",
+			"A_",
+			"A",
+			"i",
+			"j",
+			"i",
+			"A",
+			"a",
+			"A",
+			"a",
+			"A",
+			"diagonal dominante",
+			"lema",
+			"sección",
+			"seción",
+			"a_{",
+			"vspace",
+			"\\widehat\\{T\\}",
+			"dots",
+			", \\dots ",
+			"\\\\",
+			"&",
+			"split",
+			"\\cong",
+			"multiline",
+			"\\]",
+			"\\mathcal{l}",
+			"l",
+			"i",
+			"j",
+			"k",
+			"K",
+			"k",
+			"j",
+			"i",
+			"j",
+			"i",
+			"k",
+			"K",
+			"k",
+			"j",
+			"i",
+			"j",
+			"i",
+			"j",
+			"PEPE",
+			"j",
+			"i",
+			"solución",
+			"$s$",
+			"_{1",
+			"a^{(j-1)}_{1,j-1}",
+			"a^{(j-1)}_{1,2}",
+			"a^{(j-1)}_{1,1}",
+			"{1",
+			"a^{(j-1)}_{j,2}",
+			"{2",
+			"2"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": true,
+		"replace_history":
+		[
+			":",
+			"\";",
+			";",
+			"",
+			":",
+			";",
+			"$1;",
+			";",
+			";$1$2",
+			";$1",
+			"ì",
+			":",
+			"\\n",
+			":"
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"sheets":
+			[
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 35.0
+	},
+	"input":
+	{
+		"height": 44.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.exec":
+	{
+		"height": 170.0
+	},
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"output.unicode_preview":
+	{
+		"height": 326.0
+	},
+	"pinned_build_system": "",
+	"project": "orga2-tp2.sublime-project",
+	"replace":
+	{
+		"height": 66.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"informe.tex",
+				"docs/informe/informe.tex"
+			],
+			[
+				"desarr",
+				"docs/informe/secciones/2-desarrollo.tex"
+			],
+			[
+				"infrtex",
+				"docs/informe/informe.tex"
+			],
+			[
+				"refere",
+				"docs/informe/referencias.bib"
+			]
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 575.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"cdi",
+				"/media/data/Haphi/websites/archive/cdisanrafael/cdisanrafael.sublime-project"
+			]
+		],
+		"width": 437.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 326.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}

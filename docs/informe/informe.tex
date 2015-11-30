@@ -1,4 +1,5 @@
 \documentclass[11pt, a4paper, spanish]{article}
+\usepackage{etex}
 
 \usepackage[a4paper, margin=2.5cm, top=3.5cm, bottom=3.5cm]{geometry} % Define los márgenes
 \usepackage{amsmath, amscd, amssymb, amsthm, latexsym, gensymb} % Paquetes matemáticos
@@ -29,6 +30,7 @@
 % \usepackage{caption} % Captions sin números
 % \usepackage{multirow} % Celdas multifila en tablas
 \usepackage[thinlines]{easytable} % Tablas para diagramas de registros
+\usepackage{tabu} % Tablas para diagramas de registros
 \usepackage{caratula} % Carátula del DC
 
 % Bibliografía
@@ -46,6 +48,11 @@
   \newtheorem{obs}{Observación}
 \setlength{\parskip}{.3em}
 \newcommand{\acr}[1]{\textsc{\lowercase{#1}}} % Acrónimos
+\newcommand{\mat}[1]{\ensuremath{\mathbf{#1}}}
+\newcommand{\img}[1]{\mat{#1}}
+\newcommand{\comp}[1]{\ensuremath{\mathsf{#1}}}
+
+\newenvironment{bitlimits}[2]{caca}{caca}
 
 % Encabezado
 \lhead{Organización del Computador II}
