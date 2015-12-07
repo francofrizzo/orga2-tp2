@@ -55,6 +55,22 @@
 	},
 	"buffers":
 	[
+		{
+			"file": "docs/informe/informe.tex",
+			"settings":
+			{
+				"buffer_size": 2896,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "docs/informe/3-experimentos.tex",
+			"settings":
+			{
+				"buffer_size": 1366,
+				"line_ending": "Unix"
+			}
+		}
 	],
 	"build_system": "",
 	"build_system_choices":
@@ -84,9 +100,17 @@
 	"command_palette":
 	{
 		"height": 423.0,
-		"last_filter": "",
+		"last_filter": "indente",
 		"selected_items":
 		[
+			[
+				"indente",
+				"Indentation: Convert to Spaces"
+			],
+			[
+				"cvtcase",
+				"Convert Case: Upper Case"
+			],
 			[
 				"convert to tabs",
 				"Indentation: Convert to Tabs"
@@ -150,15 +174,30 @@
 	},
 	"expanded_folders":
 	[
-		"/home/franco/Source/orga2-tp2"
+		"/home/franco/Source/orga2-tp2",
+		"/home/franco/Source/orga2-tp2/docs",
+		"/home/franco/Source/orga2-tp2/docs/informe",
+		"/home/franco/Source/orga2-tp2/src",
+		"/home/franco/Source/orga2-tp2/src/filtros"
 	],
 	"file_history":
 	[
+		"/home/franco/Source/orga2-tp2/src/filtros/blur_asm.asm",
+		"/home/franco/Source/orga2-tp2/src/filtros/blur_asm2.asm",
+		"/home/franco/Source/orga2-tp2/docs/informe/2-desarrollo.tex",
+		"/home/franco/Source/orga2-tp2/docs/informe/3-experimentos(old).tex",
+		"/home/franco/Source/orga2-tp2/docs/informe/4-conclusiones.tex",
+		"/home/franco/Source/orga2-tp2/docs/informe/informe.tex",
+		"/home/franco/Source/orga2-tp2/docs/informe/caratula.sty",
+		"/home/franco/.config/sublime-text-3/Packages/User/Preferences.sublime-settings",
+		"/home/franco/Source/orga2-tp2/docs/informe/.gitignore",
+		"/home/franco/Haphi/Pueblo-Benegas/reglamento/working/parte1/parte1.final.txt",
+		"/home/franco/Source/metNum-tp3/docs/informe/informe.tex",
+		"/home/franco/Source/orga2-tp2/docs/informe/3-experimentos.tex",
 		"/home/franco/Facultad/materias/metNum/tp1/docs/informe/secciones/3-experimentos.tex",
 		"/home/franco/Facultad/materias/metNum/tp1/docs/informe/informe.tex",
 		"/home/franco/Facultad/materias/metNum/tp3/docs/informe/informe.tex",
 		"/home/franco/Facultad/materias/metNum/tp1/docs/informe/secciones/2-desarrollo.tex",
-		"/home/franco/.config/sublime-text-3/Packages/User/Preferences.sublime-settings",
 		"/home/franco/.config/sublime-text-3/Packages/Default/Preferences.sublime-settings",
 		"/home/franco/Facultad/materias/metNum/tp1/docs/informe/secciones/1-intro.tex",
 		"/home/franco/Facultad/materias/metNum/tp1/docs/informe/.gitignore",
@@ -205,7 +244,7 @@
 	],
 	"find":
 	{
-		"height": 35.0
+		"height": 46.0
 	},
 	"find_in_files":
 	{
@@ -216,9 +255,81 @@
 	},
 	"find_state":
 	{
-		"case_sensitive": true,
+		"case_sensitive": false,
 		"find_history":
 		[
+			"in{figure}",
+			";",
+			"             ;",
+			"\n            ;",
+			";",
+			"; ",
+			";",
+			"D/S",
+			"Double-Precision ",
+			"{PS/PD}",
+			"Double-Precision ",
+			"Byte",
+			" Double-Precision ",
+			"Signed",
+			"Double-",
+			"PD",
+			"Double",
+			"Double-Precision",
+			"from",
+			"Double",
+			"PD",
+			"Single",
+			"Double-Precision",
+			"Bitwise",
+			"orpd",
+			"NOT",
+			".*\\n.*\\n",
+			"raisebox",
+			"center",
+			"diff-b",
+			" \\* v",
+			"C_",
+			"B_",
+			"A_",
+			"I_1",
+			"I_2",
+			"\\alpha",
+			"\\comp{b, g, r}",
+			"\\comp{a}",
+			"\\comp{r}",
+			"\\comp{g}",
+			"\\comp{b}",
+			"mathsf",
+			"mat",
+			".6cm",
+			"6",
+			"6cm",
+			"\\makebox[.6cm]",
+			".8",
+			"A \\&",
+			".7",
+			"centering}",
+			"\\begin{centering",
+			"centering",
+			"\\\\",
+			"\\raisebox",
+			"$",
+			"|",
+			"tabular",
+			"-12",
+			"texttt",
+			"-6",
+			"\\makebox[.7cm]{",
+			"TAB",
+			"tabular",
+			"jpg",
+			"./image",
+			"lenguage",
+			"assembler",
+			"matriz-de-convolucion-c",
+			"gin{f",
+			"png",
 			"r*",
 			"c/exp/graficos/exp",
 			"[width=6cm]",
@@ -274,79 +385,7 @@
 			"strong",
 			"u + 1",
 			"$A",
-			"A^",
-			"A",
-			"u - 1",
-			"A_",
-			"Phi",
-			"des:",
-			"des\\:",
-			"paredes",
-			"des",
-			"color",
-			"hasta",
-			"n[",
-			"enumerate",
-			"\\[no",
-			"\\mat{A}^",
-			"A",
-			"A_",
-			"A",
-			"i",
-			"j",
-			"i",
-			"A",
-			"a",
-			"A",
-			"a",
-			"A",
-			"diagonal dominante",
-			"lema",
-			"sección",
-			"seción",
-			"a_{",
-			"vspace",
-			"\\widehat\\{T\\}",
-			"dots",
-			", \\dots ",
-			"\\\\",
-			"&",
-			"split",
-			"\\cong",
-			"multiline",
-			"\\]",
-			"\\mathcal{l}",
-			"l",
-			"i",
-			"j",
-			"k",
-			"K",
-			"k",
-			"j",
-			"i",
-			"j",
-			"i",
-			"k",
-			"K",
-			"k",
-			"j",
-			"i",
-			"j",
-			"i",
-			"j",
-			"PEPE",
-			"j",
-			"i",
-			"solución",
-			"$s$",
-			"_{1",
-			"a^{(j-1)}_{1,j-1}",
-			"a^{(j-1)}_{1,2}",
-			"a^{(j-1)}_{1,1}",
-			"{1",
-			"a^{(j-1)}_{j,2}",
-			"{2",
-			"2"
+			"A^"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -378,8 +417,186 @@
 	"groups":
 	[
 		{
+			"selected": 1,
 			"sheets":
 			[
+				{
+					"buffer": 0,
+					"file": "docs/informe/informe.tex",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2896,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								881,
+								881
+							]
+						],
+						"settings":
+						{
+							"BracketHighlighterBusy": false,
+							"bh_regions":
+							[
+								"bh_square",
+								"bh_square_center",
+								"bh_square_open",
+								"bh_square_close",
+								"bh_square_content",
+								"bh_tag",
+								"bh_tag_center",
+								"bh_tag_open",
+								"bh_tag_close",
+								"bh_tag_content",
+								"bh_single_quote",
+								"bh_single_quote_center",
+								"bh_single_quote_open",
+								"bh_single_quote_close",
+								"bh_single_quote_content",
+								"bh_angle",
+								"bh_angle_center",
+								"bh_angle_open",
+								"bh_angle_close",
+								"bh_angle_content",
+								"bh_curly",
+								"bh_curly_center",
+								"bh_curly_open",
+								"bh_curly_close",
+								"bh_curly_content",
+								"bh_regex",
+								"bh_regex_center",
+								"bh_regex_open",
+								"bh_regex_close",
+								"bh_regex_content",
+								"bh_c_define",
+								"bh_c_define_center",
+								"bh_c_define_open",
+								"bh_c_define_close",
+								"bh_c_define_content",
+								"bh_default",
+								"bh_default_center",
+								"bh_default_open",
+								"bh_default_close",
+								"bh_default_content",
+								"bh_unmatched",
+								"bh_unmatched_center",
+								"bh_unmatched_open",
+								"bh_unmatched_close",
+								"bh_unmatched_content",
+								"bh_round",
+								"bh_round_center",
+								"bh_round_open",
+								"bh_round_close",
+								"bh_round_content",
+								"bh_double_quote",
+								"bh_double_quote_center",
+								"bh_double_quote_open",
+								"bh_double_quote_close",
+								"bh_double_quote_content"
+							],
+							"syntax": "Packages/LaTeXing/support/LaTeX.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "docs/informe/3-experimentos.tex",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1366,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1366,
+								1366
+							]
+						],
+						"settings":
+						{
+							"BracketHighlighterBusy": false,
+							"bh_regions":
+							[
+								"bh_square",
+								"bh_square_center",
+								"bh_square_open",
+								"bh_square_close",
+								"bh_square_content",
+								"bh_tag",
+								"bh_tag_center",
+								"bh_tag_open",
+								"bh_tag_close",
+								"bh_tag_content",
+								"bh_single_quote",
+								"bh_single_quote_center",
+								"bh_single_quote_open",
+								"bh_single_quote_close",
+								"bh_single_quote_content",
+								"bh_angle",
+								"bh_angle_center",
+								"bh_angle_open",
+								"bh_angle_close",
+								"bh_angle_content",
+								"bh_curly",
+								"bh_curly_center",
+								"bh_curly_open",
+								"bh_curly_close",
+								"bh_curly_content",
+								"bh_regex",
+								"bh_regex_center",
+								"bh_regex_open",
+								"bh_regex_close",
+								"bh_regex_content",
+								"bh_c_define",
+								"bh_c_define_center",
+								"bh_c_define_open",
+								"bh_c_define_close",
+								"bh_c_define_content",
+								"bh_default",
+								"bh_default_center",
+								"bh_default_open",
+								"bh_default_close",
+								"bh_default_content",
+								"bh_unmatched",
+								"bh_unmatched_center",
+								"bh_unmatched_open",
+								"bh_unmatched_close",
+								"bh_unmatched_content",
+								"bh_round",
+								"bh_round_center",
+								"bh_round_open",
+								"bh_round_close",
+								"bh_round_content",
+								"bh_double_quote",
+								"bh_double_quote_center",
+								"bh_double_quote_open",
+								"bh_double_quote_close",
+								"bh_double_quote_content"
+							],
+							"syntax": "Packages/LaTeXing/support/LaTeX.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				}
 			]
 		}
 	],
@@ -444,6 +661,14 @@
 				"docs/informe/informe.tex"
 			],
 			[
+				"desarrollo.tex",
+				"docs/informe/2-desarrollo.tex"
+			],
+			[
+				"inf",
+				"docs/informe/informe.tex"
+			],
+			[
 				"desarr",
 				"docs/informe/secciones/2-desarrollo.tex"
 			],
@@ -464,6 +689,10 @@
 		"last_filter": "",
 		"selected_items":
 		[
+			[
+				"",
+				"~/Source/metNum-tp2/metNum-tp2.sublime-project"
+			],
 			[
 				"cdi",
 				"/media/data/Haphi/websites/archive/cdisanrafael/cdisanrafael.sublime-project"

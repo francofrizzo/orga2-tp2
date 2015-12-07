@@ -19,7 +19,7 @@
       La implementación de este filtro en lenguaje C es sumamente sencilla. Ambas imágenes de entrada se recorren simultáneamente mediante dos ciclos anidados, que iteran sobre sus filas y sus columnas, respectivamente. Para las componentes \textsf{b}, \textsf{g} y \textsf{r} de cada píxel, se calcula el valor absoluto de la diferencia entre los valores correspondientes a ambas imágenes. Luego, se computa el máximo entre estos tres valores, que se guarda como el valor de las componentes \textsf{b}, \textsf{g} y \textsf{r} para el píxel correspondiente en la imagen de salida. Por último, la componente \textsf{a} de dicho píxel se define como 255.
 
     \subsubsection{Implementación en lenguaje ensamblador}
-      Al implementar el filtro en lenguaje ensamblador, es posible aprovechar las ventajas que brinda el modelo \acr{SIMD}. En particular, dado que los registros \texttt{XMM} son de 16 bytes, se los puede utilizar para procesar 4 píxeles de las imágenes en paralelo, reduciendo la cantidad de iteraciones del algoritmo y, particularmente, de accesos a memoria necesarios para completar el algoritmo.
+      Al implementar el filtro en lenguaje ensamblador, es posible aprovechar las ventajas que brinda el modelo \acr{SIMD}. En particular, dado que los registros \texttt{XMM} son de 16 bytes, se los puede utilizar para procesar 4 píxeles de las imágenes en paralelo, reduciendo la cantidad de iteraciones del algoritmo y, particularmente, de accesos a memoria necesarios para completar el mismo.
 
       La implementación en este lenguaje del filtro consiste principalmente de un ciclo que itera sobre la imagen. Al comienzo de cada ejecución, se copian 4 píxeles de $\img{I_1}$ al registro \texttt{XMM0}, y los correspondientes 4 píxeles de $\img{I_2}$ a \texttt{XMM1}.
 
@@ -29,7 +29,7 @@
         \raisebox{2.5mm}{\texttt{XMM1:}} \includegraphics{imagenes/diff-registros-2.pdf}
       \end{center}
 
-      El paso siguiente consiste en calcular, para cada una de las componentes de estos píxeles, el valor absoluto de la diferencia entre ambas imágenes. Para realizar esto, se realiza la resta de las dos maneras posibles, obtenie $\mathtt{XMM0} = \mathtt{XMM0} - \mathtt{XMM1}$ y $\mathtt{XMM1} = \mathtt{XMM1} - \mathtt{XMM0}$. En las posiciones donde el valor contenido en \texttt{XMM0} sea mayor que el de \texttt{XMM1}, será válido el resultado de la primera operación, mientras que en las demás posiciones se deberá tener en cuenta el segundo resultado.
+      El paso siguiente consiste en calcular, para cada una de las componentes de estos píxeles, el valor absoluto de la diferencia entre ambas imágenes. Para realizar esto, se realiza la resta de las dos maneras posibles, obteniendo $\mathtt{XMM0} = \mathtt{XMM0} - \mathtt{XMM1}$ y $\mathtt{XMM1} = \mathtt{XMM1} - \mathtt{XMM0}$. En las posiciones donde el valor contenido en \texttt{XMM0} sea mayor que el de \texttt{XMM1}, será válido el resultado de la primera operación, mientras que en las demás posiciones se deberá tener en cuenta el segundo resultado.
 
       Para seleccionar cuál de los dos resultados es el correcto, se utiliza una máscara que se obtiene comparando los valores de \texttt{XMM0} y \texttt{XMM1}. Aquí aparece un problema, ya que debemos comparar enteros sin signo, y \acr{SSE} no brinda instrucciones para hacer esto. Es por eso que se recurre a desempaquetar los números y considerarlos como enteros con signo de dos bytes, que sí se pueden comparar. Empaquetando luego el resultado obtenido, se logra la máscara buscada. Esta se aplica mediante \texttt{PAND} al valor contenido en \texttt{XMM0} y mediante \texttt{PANDN} al valor presente en \texttt{XMM1}. Posteriormente se computa un \texttt{POR} entre los valores recién calculados, llegando al valor deseado, que se almacena en \texttt{XMM0}.
 
@@ -56,7 +56,7 @@
       A partir de aquí, utilizando la instrucción \texttt{PSHUFB} para replicar el valor calculado, se almacena este máximo en las componentes \textsf{r}, \textsf{g} y \textsf{b} de los píxeles correspondientes de la imagen de destino, y utilizando una máscara adecuada, se define la componente \textsf{a} de todos ellos como 255.
 
   \subsection{Blur gaussiano}
-    Este filtro recibe una imagen como entrada y devuelve como salida el resultado de aplicarle una convolución\footnote{Dadas dos funciones $f$ y $g$, una \emph{convolución} $f * g$ es una operación que las transforma en una tercera función: $(f * g)(t) = \int_{-\infty}^{+\infty} f(\tau) g(t - \tau) \,d\tau$ en el caso continuo, $(f * g)_n = \sum_{k=-\infty}^{+\infty} f_k g_{n-k}$ ($n, k \in \mathbb{Z}$) en el caso discreto.} con una función gaussiana, que dependerá de un parámetro $\sigma$ que podrá ser modificado. Dada la naturaleza del problema, trabajaremos con una convolución discreta en dos dimensiones, y como nuestro poder de cómputo es limitado, procesaremos solo una vecindad acotada de cada píxel, cuyo radio quedará determinado por un parámetro configurable $r$. En definitiva, el resultado del filtro será
+    Este filtro recibe una imagen como entrada y la devuelve con un efecto de desenfoque; esto se logra mediante la aplicación de una convolución\footnote{Dadas dos funciones $f$ y $g$, una \emph{convolución} $f * g$ es una operación que las transforma en una tercera función: $(f * g)(t) = \int_{-\infty}^{+\infty} f(\tau) g(t - \tau) \,d\tau$ en el caso continuo, $(f * g)_n = \sum_{k=-\infty}^{+\infty} f_k g_{n-k}$ ($n, k \in \mathbb{Z}$) en el caso discreto.} con una función gaussiana, que dependerá de un parámetro $\sigma$ que podrá ser modificado y regulará la intensidad del efecto. Dada la naturaleza del problema, trabajaremos con una convolución discreta en dos dimensiones, y como nuestro poder de cómputo es limitado, procesaremos solo una vecindad acotada de cada píxel, cuyo radio quedará determinado por un parámetro configurable $r$. En definitiva, el resultado del filtro será
 
     \[ \img{O}_{x,y}^k = \begin{cases}
       \displaystyle \sum_{i=-r}^r \sum_{j=-r}^r \img{I}_{x+i,y+j}^k \mat{K}_{r-i,r-j}
@@ -75,7 +75,7 @@
 
       Luego, mediante dos ciclos, se recorre toda la parte de la imagen original a la que es posible aplicarle el filtro. Esta parte es la que contempla las filas desde el valor del radio hasta $filas - (r + 1$), y las columnas desde el valor del radio hasta $columnas - (r + 1$). El resto de la imagen no será afectada. 
 
-        \begin{figure}
+        \begin{figure}[h]
           \centering \includegraphics{imagenes/zona-afectada.pdf}
           \caption{Sector de la imagen afectado por el filtro.} \label{fig:zona-afectada}
         \end{figure}
@@ -84,11 +84,11 @@
 
       \subsubsection*{Función \texttt{matrizDeConvolucion}}
 
-        En esta parte del algoritmo se calcula la matriz de la convolución. Para ello, en primer lugar, se piden $4 \times (2r + 1)^2$ bytes de memoria, lugar que va a ocupar la matriz ya que su altura es $2r + 1$ y su ancho, $4 \times (2r 1)$ (porque cada píxel ocupa 4 bytes).
+        En esta parte del algoritmo se calcula la matriz de la convolución. Para ello, en primer lugar, se piden $4 \times (2r + 1)^2$ bytes de memoria, lugar que va a ocupar la matriz ya que su altura es $2r + 1$ y su ancho, $4 \times (2r + 1)$ (porque cada píxel ocupa 4 bytes).
         
-        Se utilizan dos ciclos; ambos van desde 0 hasta $2r + 1$. 
+        Se utilizan dos ciclos; ambos van desde $0$ hasta $2r + 1$. 
         
-        \begin{figure}
+        \begin{figure}[h]
           \centering \includegraphics{imagenes/matriz-de-convolucion-c.pdf}
           \caption{Ejemplo de funcionamiento de la implementación en C de \texttt{matrizDeConvolucion} con $r = 2$.} \label{fig:matriz-de-convolucion-c}
         \end{figure}
@@ -98,9 +98,7 @@
       \subsubsection*{Función \texttt{afectarPixel}}
         Primero se inicializan 3 variables donde luego se van a almacenar las sumas que corresponden a cada componente del píxel a afectar (\textsf{b}, \textsf{g} y \textsf{r}). 
 
-        Seguidamente, se utilizan dos ciclos para recorrer la matriz de convolución y la parte de la imagen correspondiente a los vecinos del píxel a afectar. 
-        
-        Estos van desde $0$ hasta $(2r)$, para recorrer las filas, y desde $0$ hasta $(2r \times 4)$ para recorrer las columnas. En cada paso se multiplica el valor de las componentes del píxel observado por el valor de la matriz de convolución. El resultado de esta multiplicación se suma en las 3 variables creadas en el principio. 
+        Seguidamente, se recorren la matriz de convolución y la parte de la imagen correspondiente a los vecinos del píxel a afectar mediante dos ciclos anidados. Estos van desde $0$ hasta $2r$, para recorrer las filas, y desde $0$ hasta $(4 \times 2r)$ para recorrer las columnas. En cada paso se multiplica el valor de las componentes del píxel observado por el valor de la matriz de convolución. El resultado de esta multiplicación se suma en las 3 variables creadas en el principio. 
         
         Finalmente, se copia el valor de cada variable en cada componente del píxel en la imagen destino. Luego, en la componente \textsf{a} se coloca el valor 255.  
 
@@ -113,19 +111,19 @@
       
       Posteriormente, se utilizan dos ciclos para recorrer la porción a modificar de la imagen. Estos utilizan los registros \texttt{R8} para recorrer las columnas y \texttt{R9} para recorrer las filas.
 
-      \begin{figure}
+      \begin{figure}[h]
         \centering \includegraphics{imagenes/ciclos-asm.pdf}
         \caption{Aplicación del filtro en la implementación en lenguaje ensamblador, con $r = 2$.} \label{fig:ciclos-asm}
       \end{figure}
 
-      En cada paso del ciclo, utilizando nuevamente la instrucción \texttt{CALL}, se realiza un llamado a la función afectarPixel (implementada en ensamblador) que se ocupa de modificar el píxel correspondiente. 
+      En cada paso del ciclo, utilizando nuevamente la instrucción \texttt{CALL}, se realiza un llamado a la función \texttt{afectarPixel} (implementada en ensamblador) que se ocupa de modificar el píxel correspondiente. 
 
-      \paragraph{Función \texttt{afectarPixel}}
+      \subsubsection*{Función \texttt{afectarPixel}}
         El primer paso de este algoritmo es encontrar el puntero al píxel que se debe afectar en la imagen original y otro puntero al mismo píxel pero en la imagen destino. Estos punteros son guardados en los registros \texttt{R12} y \texttt{R14}, respectivamente.   
 
         Llamaremos \emph{submatriz imagen} a la porción de la imagen original que se debe utilizar para que, junto con la matriz de convolución, se obtenga el nuevo valor del píxel. Esta submatriz es la que contiene al píxel a modificar en el centro y su tamaño es el mismo que el de la matriz de convolución. 
         
-        \begin{figure}
+        \begin{figure}[h]
           \centering \includegraphics{imagenes/afectar-pixel-asm.pdf}
           \caption{Implementación en ensamblador de \texttt{afectarPixel} con $r = 2$.} \label{fig:afectar-pixel-asm}
         \end{figure}
@@ -134,11 +132,11 @@
 
         En el registro \texttt{R11} se guarda la cantidad total de píxeles que componen la submatriz imagen. 
 
-              $\mathtt{R11} = (2 \times r + 1)^{2}$  
+          \[ \mathtt{R11} = (2 \times r + 1)^{2} \]
         
         El registro \texttt{R15} contiene el tamaño de las filas.
         
-              $\mathtt{R15} = (2 \times r + 1)$
+          \[ \mathtt{R15} = (2 \times r + 1) \]
 
         Estos últimos dos se utilizan como registros contadores.
 
@@ -176,9 +174,9 @@
 
         Esto mismo se realiza para la matriz de convolución.
           
-        \begin{figure}
+        \begin{figure}[h]
           \centering \includegraphics{imagenes/casos-borde-asm.pdf}
           \caption{Tratamiento de casos borde en la implementación en ensamblador de \texttt{afectarPixel}.} \label{fig:casos-borde-asm}
         \end{figure}
 
-        Al finalizar el ciclo, se tiene en \texttt{XMM6} el valor esperado para cada componente (\textsf{b}, \textsf{g} y \textsf{r}) del píxel a afectar, en punto flotante de 32 bits. Primero se pasan estos valores a enteros; después, en la componente \textsf{a} se coloca un 255, y luego se empaqueta \texttt{XMM6} para copiarlo en la posición del píxel que se quiere modificar en la imagen destino.
+        Al finalizar el ciclo, se tiene en \texttt{XMM6} el valor esperado para cada componente (\textsf{b}, \textsf{g} y \textsf{r}) del píxel a afectar, en punto flotante de 32 bits. Primero se pasan estos valores a enteros (con la instrucción \texttt{CVTPS2DQ}); después, en la componente \textsf{a} se coloca un 255, y luego se empaqueta \texttt{XMM6} para copiarlo en la posición del píxel que se quiere modificar en la imagen destino.
