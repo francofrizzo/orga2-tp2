@@ -7,7 +7,7 @@ extern matrizDeConvolucion
 section .data
 
 section .text
-; void blur_asm2 (unsigned char *src, unsigned char *dst, int cols, int filas, float sigma, int radius)
+;void blur_asm2 (unsigned char *src, unsigned char *dst, int cols, int filas, float sigma, int radius)
 
 _blur_asm2:
 blur_asm2:
@@ -72,6 +72,8 @@ blur_asm2:
     mov rdx, r11 ; rdx = matConv
     mov rcx, rdx ; r15 = dirección matriz de convolución (para poder usar rdx)
 
+    push r13
+    push r11
 
     mov rax, r15            ; rax = cols
     shl rax, 2              ; rax = cols * 4
@@ -234,6 +236,8 @@ blur_asm2:
         or r11d, 0xff000000      ; r8d = b | g | r | 0xff
         mov [rdi], r11d         ; guardo en memoria el valor obtenido
 
+    	pop r11
+    	pop r13
 
             add r8d, 4
             jmp .ciclo2
