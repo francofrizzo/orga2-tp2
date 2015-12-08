@@ -55,30 +55,6 @@
 	},
 	"buffers":
 	[
-		{
-			"file": "docs/informe/informe.tex",
-			"settings":
-			{
-				"buffer_size": 2896,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "docs/informe/3-experimentos.tex",
-			"settings":
-			{
-				"buffer_size": 3423,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "src/exp/exp1.sh",
-			"settings":
-			{
-				"buffer_size": 5354,
-				"line_ending": "Unix"
-			}
-		}
 	],
 	"build_system": "",
 	"build_system_choices":
@@ -108,9 +84,17 @@
 	"command_palette":
 	{
 		"height": 423.0,
-		"last_filter": "ADd",
+		"last_filter": "",
 		"selected_items":
 		[
+			[
+				"chec curr",
+				"Git: Checkout Current File"
+			],
+			[
+				"check",
+				"Git: Checkout Commit"
+			],
 			[
 				"ADd",
 				"Project: Add Folder"
@@ -190,26 +174,44 @@
 		"/home/franco/Source/orga2-tp2/docs",
 		"/home/franco/Source/orga2-tp2/docs/informe",
 		"/home/franco/Source/orga2-tp2/src",
-		"/home/franco/Source/orga2-tp2/src/filtros",
-		"/home/franco/Source/orga2-tp2/src/helper",
-		"/home/franco/Source/orga2-tp2/docs"
+		"/home/franco/Source/orga2-tp2/src/exp",
+		"/home/franco/Source/orga2-tp2/src/exp/exp1",
+		"/home/franco/Source/orga2-tp2/src/filtros"
 	],
 	"file_history":
 	[
-		"/home/franco/Source/orga2-tp2/src/tp2.c",
-		"/home/franco/Source/orga2-tp2/src/cli.c",
-		"/home/franco/Source/orga2-tp2/src/filtros/blur_asm.asm",
-		"/home/franco/Source/orga2-tp2/src/filtros/blur_asm2.asm",
-		"/home/franco/Source/orga2-tp2/docs/informe/2-desarrollo.tex",
+		"/home/franco/Source/orga2-tp2/src/exp/exp1.sh",
+		"/home/franco/Source/orga2-tp2/src/exp/exp3.m",
 		"/home/franco/Source/orga2-tp2/docs/informe/3-experimentos(old).tex",
 		"/home/franco/Source/orga2-tp2/docs/informe/4-conclusiones.tex",
+		"/home/franco/Source/orga2-tp2/docs/informe/3-experimentos.tex",
 		"/home/franco/Source/orga2-tp2/docs/informe/informe.tex",
+		"/home/franco/Source/orga2-tp2/src/filtros/blur_asm2.asm",
+		"/home/franco/Source/orga2-tp2/src/exp/exp2.sh",
+		"/home/franco/Source/orga2-tp2/src/exp/exp1/data-blur-c.txt",
+		"/home/franco/Source/metNum-tp2/docs/informe/secciones/3-experimentacion.tex",
+		"/home/franco/Source/orga2-tp2/src/filtros/blur_asm.old.asm",
+		"/home/franco/Source/orga2-tp2/src/filtros/blur_asm.asm",
+		"/home/franco/Source/orga2-tp2/src/exp/exp1.m",
+		"/home/franco/Source/orga2-tp2/src/exp/exp2.m",
+		"/home/franco/Source/orga2-tp2/src/exp/exp3/data-diff-c2.txt",
+		"/home/franco/Source/orga2-tp2/src/exp/exp3/data-diff-c.txt",
+		"/home/franco/Source/orga2-tp2/src/exp/exp3/data-blur-asm2.txt",
+		"/home/franco/Source/orga2-tp2/src/exp/exp3/data-blur-asm.txt",
+		"/home/franco/Source/orga2-tp2/src/exp/exp4.m",
+		"/home/franco/Source/orga2-tp2/src/exp/exp3.sh",
+		"/home/franco/Source/orga2-tp2/src/filtros/diff.c",
+		"/home/franco/Source/orga2-tp2/src/cli.c",
+		"/home/franco/Source/orga2-tp2/src/tp2.c",
+		"/home/franco/Source/orga2-tp2/src/exp/exp4.sh",
+		"/home/franco/Source/orga2-tp2/filtros/blur_asm.asm",
+		"/home/franco/Desktop/Esta nota (como varias que se vienen publicando en",
+		"/home/franco/Source/orga2-tp2/docs/informe/2-desarrollo.tex",
 		"/home/franco/Source/orga2-tp2/docs/informe/caratula.sty",
 		"/home/franco/.config/sublime-text-3/Packages/User/Preferences.sublime-settings",
 		"/home/franco/Source/orga2-tp2/docs/informe/.gitignore",
 		"/home/franco/Haphi/Pueblo-Benegas/reglamento/working/parte1/parte1.final.txt",
 		"/home/franco/Source/metNum-tp3/docs/informe/informe.tex",
-		"/home/franco/Source/orga2-tp2/docs/informe/3-experimentos.tex",
 		"/home/franco/Facultad/materias/metNum/tp1/docs/informe/secciones/3-experimentos.tex",
 		"/home/franco/Facultad/materias/metNum/tp1/docs/informe/informe.tex",
 		"/home/franco/Facultad/materias/metNum/tp3/docs/informe/informe.tex",
@@ -264,9 +266,10 @@
 	},
 	"find_in_files":
 	{
-		"height": 0.0,
+		"height": 130.0,
 		"where_history":
 		[
+			""
 		]
 	},
 	"find_state":
@@ -274,6 +277,42 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"clearpage",
+			"end{tabular}",
+			"emp\\{",
+			"&",
+			" &",
+			" ",
+			"$((dirn",
+			"$((dirname $",
+			"0",
+			"$(dirname $0",
+			"(dirname $",
+			"b/d",
+			"a/d",
+			"dpng",
+			"png",
+			"Archivo de entrada",
+			"nombre",
+			"nombre=",
+			"2/a/in",
+			"exp4",
+			"2/b/dat",
+			"exp3",
+			"p2/a/da",
+			"2/a/",
+			"p2/a-",
+			"3/b/in/",
+			"/exp3/",
+			"exp2/a/in/",
+			"exp2",
+			"/exp",
+			"/exp2/",
+			")/exp2/",
+			"/exp2/",
+			"exp3",
+			"exp4",
+			"exp2",
 			"MEDIR",
 			"in{figure}",
 			";",
@@ -365,43 +404,7 @@
 			"begin{center}",
 			"width=4.5cm",
 			"\n            \\end{minipage}\n            \\vspace{1em}\n            \\begin{minipage}{\\textwidth}",
-			"turas variables",
-			"minipage",
-			"\\begin{minipage}",
-			"samepage",
-			"center",
-			"subsubsection",
-			"Temperat",
-			"height",
-			"paragraph",
-			"Caso A",
-			"caption",
-			"}  ",
-			"bular}}",
-			"{\\centering",
-			"subsubsection*",
-			"paragraph",
-			"iso",
-			"\\subsubsection*{Ex",
-			"\\subsubsection*{E",
-			"fuera",
-			"iotta",
-			"iotta_k",
-			"rho",
-			"i",
-			"tilde",
-			"color",
-			"llegué",
-			"pdf",
-			"\\:",
-			"\\\\\\;",
-			"\\.",
-			"discretizac",
-			"A} \\in \\",
-			"itemize",
-			"strong",
-			"u + 1",
-			"$A"
+			"turas variables"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -433,275 +436,8 @@
 	"groups":
 	[
 		{
-			"selected": 0,
 			"sheets":
 			[
-				{
-					"buffer": 0,
-					"file": "docs/informe/informe.tex",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 2896,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								162,
-								161
-							]
-						],
-						"settings":
-						{
-							"BracketHighlighterBusy": false,
-							"bh_regions":
-							[
-								"bh_single_quote",
-								"bh_single_quote_center",
-								"bh_single_quote_open",
-								"bh_single_quote_close",
-								"bh_single_quote_content",
-								"bh_round",
-								"bh_round_center",
-								"bh_round_open",
-								"bh_round_close",
-								"bh_round_content",
-								"bh_regex",
-								"bh_regex_center",
-								"bh_regex_open",
-								"bh_regex_close",
-								"bh_regex_content",
-								"bh_default",
-								"bh_default_center",
-								"bh_default_open",
-								"bh_default_close",
-								"bh_default_content",
-								"bh_square",
-								"bh_square_center",
-								"bh_square_open",
-								"bh_square_close",
-								"bh_square_content",
-								"bh_curly",
-								"bh_curly_center",
-								"bh_curly_open",
-								"bh_curly_close",
-								"bh_curly_content",
-								"bh_double_quote",
-								"bh_double_quote_center",
-								"bh_double_quote_open",
-								"bh_double_quote_close",
-								"bh_double_quote_content",
-								"bh_c_define",
-								"bh_c_define_center",
-								"bh_c_define_open",
-								"bh_c_define_close",
-								"bh_c_define_content",
-								"bh_tag",
-								"bh_tag_center",
-								"bh_tag_open",
-								"bh_tag_close",
-								"bh_tag_content",
-								"bh_angle",
-								"bh_angle_center",
-								"bh_angle_open",
-								"bh_angle_close",
-								"bh_angle_content",
-								"bh_unmatched",
-								"bh_unmatched_center",
-								"bh_unmatched_open",
-								"bh_unmatched_close",
-								"bh_unmatched_content"
-							],
-							"syntax": "Packages/LaTeXing/support/LaTeX.tmLanguage",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 0,
-					"type": "text"
-				},
-				{
-					"buffer": 1,
-					"file": "docs/informe/3-experimentos.tex",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 3423,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								2639,
-								2639
-							]
-						],
-						"settings":
-						{
-							"BracketHighlighterBusy": false,
-							"bh_regions":
-							[
-								"bh_single_quote",
-								"bh_single_quote_center",
-								"bh_single_quote_open",
-								"bh_single_quote_close",
-								"bh_single_quote_content",
-								"bh_round",
-								"bh_round_center",
-								"bh_round_open",
-								"bh_round_close",
-								"bh_round_content",
-								"bh_regex",
-								"bh_regex_center",
-								"bh_regex_open",
-								"bh_regex_close",
-								"bh_regex_content",
-								"bh_default",
-								"bh_default_center",
-								"bh_default_open",
-								"bh_default_close",
-								"bh_default_content",
-								"bh_square",
-								"bh_square_center",
-								"bh_square_open",
-								"bh_square_close",
-								"bh_square_content",
-								"bh_curly",
-								"bh_curly_center",
-								"bh_curly_open",
-								"bh_curly_close",
-								"bh_curly_content",
-								"bh_double_quote",
-								"bh_double_quote_center",
-								"bh_double_quote_open",
-								"bh_double_quote_close",
-								"bh_double_quote_content",
-								"bh_c_define",
-								"bh_c_define_center",
-								"bh_c_define_open",
-								"bh_c_define_close",
-								"bh_c_define_content",
-								"bh_tag",
-								"bh_tag_center",
-								"bh_tag_open",
-								"bh_tag_close",
-								"bh_tag_content",
-								"bh_angle",
-								"bh_angle_center",
-								"bh_angle_open",
-								"bh_angle_close",
-								"bh_angle_content",
-								"bh_unmatched",
-								"bh_unmatched_center",
-								"bh_unmatched_open",
-								"bh_unmatched_close",
-								"bh_unmatched_content"
-							],
-							"syntax": "Packages/LaTeXing/support/LaTeX.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 1,
-					"type": "text"
-				},
-				{
-					"buffer": 2,
-					"file": "src/exp/exp1.sh",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 5354,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								4665,
-								4665
-							]
-						],
-						"settings":
-						{
-							"BracketHighlighterBusy": false,
-							"bh_regions":
-							[
-								"bh_single_quote",
-								"bh_single_quote_center",
-								"bh_single_quote_open",
-								"bh_single_quote_close",
-								"bh_single_quote_content",
-								"bh_round",
-								"bh_round_center",
-								"bh_round_open",
-								"bh_round_close",
-								"bh_round_content",
-								"bh_regex",
-								"bh_regex_center",
-								"bh_regex_open",
-								"bh_regex_close",
-								"bh_regex_content",
-								"bh_default",
-								"bh_default_center",
-								"bh_default_open",
-								"bh_default_close",
-								"bh_default_content",
-								"bh_square",
-								"bh_square_center",
-								"bh_square_open",
-								"bh_square_close",
-								"bh_square_content",
-								"bh_curly",
-								"bh_curly_center",
-								"bh_curly_open",
-								"bh_curly_close",
-								"bh_curly_content",
-								"bh_double_quote",
-								"bh_double_quote_center",
-								"bh_double_quote_open",
-								"bh_double_quote_close",
-								"bh_double_quote_content",
-								"bh_c_define",
-								"bh_c_define_center",
-								"bh_c_define_open",
-								"bh_c_define_close",
-								"bh_c_define_content",
-								"bh_tag",
-								"bh_tag_center",
-								"bh_tag_open",
-								"bh_tag_close",
-								"bh_tag_content",
-								"bh_angle",
-								"bh_angle_center",
-								"bh_angle_open",
-								"bh_angle_close",
-								"bh_angle_content",
-								"bh_unmatched",
-								"bh_unmatched_center",
-								"bh_unmatched_open",
-								"bh_unmatched_close",
-								"bh_unmatched_content"
-							],
-							"syntax": "Packages/ShellScript/Shell-Unix-Generic.tmLanguage",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 1892.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 2,
-					"type": "text"
-				}
 			]
 		}
 	],
@@ -761,6 +497,58 @@
 		"last_filter": "",
 		"selected_items":
 		[
+			[
+				"inform",
+				"docs/informe/informe.tex"
+			],
+			[
+				"informetex",
+				"docs/informe/informe.tex"
+			],
+			[
+				"exp2",
+				"orga2-tp2/src/exp/exp2.sh"
+			],
+			[
+				"expold",
+				"docs/informe/3-experimentos(old).tex"
+			],
+			[
+				"experiment",
+				"docs/informe/3-experimentos.tex"
+			],
+			[
+				"blur_asm",
+				"orga2-tp2/src/filtros/blur_asm.asm"
+			],
+			[
+				"exper",
+				"docs/informe/3-experimentos.tex"
+			],
+			[
+				"tp2",
+				"orga2-tp2/src/tp2.c"
+			],
+			[
+				"cli.c",
+				"orga2-tp2/src/cli.c"
+			],
+			[
+				"exp1",
+				"orga2-tp2/src/exp/exp1.sh"
+			],
+			[
+				"exp4sh",
+				"orga2-tp2/src/exp/exp4.sh"
+			],
+			[
+				"exp4.m",
+				"orga2-tp2/src/exp/exp4.m"
+			],
+			[
+				"blurasm",
+				"orga2-tp2/src/filtros/blur_asm.asm"
+			],
 			[
 				"tp2.c",
 				"orga2-tp2/src/tp2.c"
