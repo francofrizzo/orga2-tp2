@@ -86,7 +86,7 @@ if [[ $filtros = "diff" || $filtros == "both" ]]; then
                         fi
                         printf " %d" "$line" >> $(dirname $0)/exp1/data-diff-$imp.txt
                     done
-                    nombre=$((dirname $0)/../build/tp2 diff -i $imp -n $(dirname $0)/exp1/in/phoebe1-$i.bmp $(dirname $0)/exp1/in/phoebe2-$i.bmp))
+                    nombre=$($(dirname $0)/../build/tp2 diff -i $imp -n $(dirname $0)/exp1/in/phoebe1-$i.bmp $(dirname $0)/exp1/in/phoebe2-$i.bmp)
                     rm $(dirname $0)/exp1/out/diff-$imp/$nombre
             done
             printf "\n" >> $(dirname $0)/exp1/data-diff-$imp.txt
@@ -116,7 +116,7 @@ if [[ $filtros = "blur" || $filtros == "both" ]]; then
                         fi
                         printf " %d" "$line" >> $(dirname $0)/exp1/data-blur-$imp.txt
                     done
-                    nombre=$((dirname $0)/../build/tp2 blur -i $imp -n $(dirname $0)/exp1/in/phoebe1-$i.bmp))
+                    nombre=$($(dirname $0)/../build/tp2 blur -i $imp -n $(dirname $0)/exp1/in/phoebe1-$i.bmp)
                     rm $(dirname $0)/exp1/out/blur-$imp/$nombre
             done
             printf "\n" >> $(dirname $0)/exp1/data-blur-$imp.txt

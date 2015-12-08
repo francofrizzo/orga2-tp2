@@ -1,7 +1,7 @@
 \section{Experimentación}
     En esta sección, se presentan las pruebas experimentales realizadas sobre ambas implementaciones de los algoritmos, como así también los resultados obtenidos en cada una de ellas y una discusión de los mismos. El objetivo detrás de la realización de estos experimentos fue evaluar y comparar el rendimiento de las diferentes implementaciones, para extraer conclusiones acerca de las características del modelo de programación \acr{SIMD}.
 
-    Todas las pruebas pueden ser recreadas mediante la ejecución de una serie de scripts incluidos con los archivos fuentes del trabajo práctico, como así también los gráficos que se incluyen en este informe. Estos scripts, programados en Bash, se encuentran en el directorio \texttt{exp}, y llevan por nombre \texttt{exp{i}}, donde \texttt{i} es el número del experimento. El parámetro opcional \texttt{-n <cant>} permite elegir la cantidad de veces que se rtepetirá cada medición.
+    Todas las pruebas, como así también los gráficos que se incluyen en este informe, pueden ser recreadas mediante la ejecución de una serie de \emph{scripts} incluidos con los archivos fuentes del trabajo práctico. Estos \emph{scripts}, programados en Bash, se encuentran en el directorio \texttt{exp}, y llevan por nombre \texttt{exp\{i\}}, donde \texttt{i} es el número del experimento. El parámetro opcional \texttt{-n <cant>} permite elegir la cantidad de veces que se repetirá cada medición.
 
     \subsection{Experimento 1: Comparación de rendimiento}
 
@@ -9,19 +9,20 @@
         	En este experimento, se buscó comparar el rendimiento de las implementaciones en lenguaje C de ambos filtros, con el obtenido con las respectivas implementaciones en lenguaje ensamblador utilizando el paradigma \acr{SIMD}. Las pruebas se realizaron con diferentes tamaños de imágenes, con el objetivo de lograr una comparación independiente de dicho parámetro y, al mismo tiempo, adquirir una idea del comportamiento empírico de cada implementación con respecto al tamaño de la entrada.
 
         \subsubsection*{Metodología, datos y parámetros del experimento}
-        	Todas las instancias de experimentación se ejecutaron 20 veces, calculando luego el promedio de los valores obtenidos
-        	En el primer experimento se genera una serie de imágenes de diferentes tamaños, tomando una imagen grande y disminuyendo progresivamente sus dimensiones.
-        	Luego, se ejecuta el filtro \emph{blur} con cada una de las imágenes generadas y se compara el tiempo de ejecución de las implementaciones en C y lenguaje ensamblador.
-        	Esto se repite para el filtro \emph{diff}, con la diferencia de que para cada tamaño de imagen se genera 
-        	un par de imágenes con ciertas diferencias entre ellas, para poder verificar el buen funcionamiento del mismo.
+        	El experimento consistió en la aplicación de las dos implementaciones de ambos filtros a una serie de imágenes de diferentes tamaños; en todos los casos se midió el tiempo de ejecución, utilizando la instrucción \texttt{RDTSC} de la arquitectura x86-64. Para mejorar la calidad de los resultados cada medición se repitió un total de 20 veces, calculando luego el tiempo promedio insumido por iteración.
+
+        	Como dato de entrada, se consideró una imagen de $1800 \times 1200$ píxeles ($2160000$ píxeles en total), que puede encontrarse bajo el nombre \texttt{img/phoebe1.bmp}; para utilizar con el filtro \emph{diff}, además, se utilizó una versión modificada de la misma, \texttt{img/phoebe2.bmp}. Redimensionando ambas imágenes se crearon versiones de los siguientes tamaños en píxeles: \{1801824, 1500000, 1024224, 960000, 726624, 540000, 369024, 240000, 1536000, 60000, 38400, 21600, 9600, 6144, 2400, 1536, 864, 384\}.
+
+        	Por otra parte, como parámetros del filtro \emph{blur} se seleccionaron arbitrariamente los valores $\sigma = 5$ y $r = 15$, manteniendo los mismos constantes a lo largo de todo el experimento.
 
         \subsubsection*{Hipótesis}
 
         \subsubsection*{Resultados obtenidos y discusión}
 
-    \subsection{Experimento 2: Rendimiento según parámetros del filtro}
+    \subsection{Experimento 2: Rendimiento según parámetros del filtro \emp{blur}}
 
         \subsubsection*{Presentación}
+            Este experimento se llevó a cabo con el objetivo de analizar el impacto de los diferentes parámetros del filtro \emph{blur} en su rendimiento temporal, para corroborar así las hipótesis elaboradas con respecto a 
 
         \subsubsection*{Metodología, datos y parámetros del experimento}
 

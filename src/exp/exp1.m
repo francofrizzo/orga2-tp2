@@ -30,9 +30,10 @@ fprintf(file, formato, [blur_asm_x'; blur_asm_y'; blur_asm_tpp'; blur_asm_e']);
 fclose(file);
 
 % Creación de los gráficos
-filetype='-dpng';
+filetype='-dpdf';
 mkdir('graficos');
 figure;
+set(gca,'FontName', 'FreeSans');
 
 hold on;
 h = errorbar(diff_c_x, diff_c_y, diff_c_e, 'r');
@@ -46,6 +47,8 @@ set(get(h, 'Parent'), 'XScale', 'log');
 print('graficos/exp1-diff-c_vs_asm', filetype);
 
 clf;
+set(gca,'FontName', 'FreeSans');
+
 hold on;
 h = errorbar(blur_c_x, blur_c_y, blur_c_e, 'r');
 errorbar(blur_asm_x, blur_asm_y, blur_asm_e);
@@ -58,6 +61,8 @@ set(get(h, 'Parent'), 'XScale', 'log');
 print('graficos/exp1-blur-c_vs_asm', filetype);
 
 clf;
+set(gca,'FontName', 'FreeSans');
+
 hold on;
 h = plot(diff_c_x, diff_c_tpp, 'r');
 plot(diff_asm_x, diff_asm_tpp);
@@ -69,6 +74,8 @@ set(get(h, 'Parent'), 'XScale', 'log');
 print('graficos/exp1-diff-tiempo_por_pixel', filetype);
 
 clf;
+set(gca,'FontName', 'FreeSans');
+
 hold on;
 h = plot(blur_c_x, blur_c_tpp, 'r');
 plot(blur_asm_x, blur_asm_tpp);

@@ -37,7 +37,9 @@ void leer_params_diff (configuracion_t *config, int argc, char *argv[]) {
         ayuda_diff();
         exit(EXIT_FAILURE);
     } else {
-        printf ( "  Archivo de entrada : %s\n", config->archivo_entrada_2);
+        if (! config->nombre) {
+            printf ( "  Archivo de entrada : %s\n", config->archivo_entrada_2);
+        }
     }
 }
 

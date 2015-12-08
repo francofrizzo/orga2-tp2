@@ -42,7 +42,7 @@ while getopts 'cCe:ghn:rv' opt; do
   esac
 done
 
-for i in $(seq 4); do
+for i in $(seq 3); do
 	if [[ $experimentos =~ ${i} ]] ; then
 		if [ "$ejecutar" = true ]; then
 			$(dirname $0)/exp${i}.sh -n $repeticiones $verbose
