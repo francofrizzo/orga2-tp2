@@ -44,9 +44,9 @@
                 \end{center}
             \end{minipage}
 
-            % Como se observa en los resultados, se pudo confirmar la hipótesis planteada: la implementación en lenguaje ensamblador resultó más rápida que la implementación en C para todos los tamaños de imagen.
+             Como se observa en los resultados, se pudo confirmar la hipótesis planteada: la implementación en lenguaje ensamblador resultó más rápida que la implementación en C para todos los tamaños de imagen.
 
-            % En \emph{blur}, cuando llamamos a la función con un valor de $r$ mayor a la mitad de la altura o a la mitad del ancho de la imagen, no se producen cambios. Dado que en el experimento el valor de $r$ se mantiene constante, las dos imágenes más pequeñas no se ven afectadas por el filtro, lo cual se ve reflejado en los resultados, ya que para estas dos imágenes el tiempo de ejecución es notablemente menor.
+             En \emph{blur}, cuando llamamos a la función con un valor de $r$ mayor a la mitad de la altura o a la mitad del ancho de la imagen, no se producen cambios. Dado que en el experimento el valor de $r$ se mantiene constante, las dos imágenes más pequeñas no se ven afectadas por el filtro, lo cual se ve reflejado en los resultados, ya que para estas dos imágenes el tiempo de ejecución es notablemente menor.
 
     \subsection{Experimento 2: Rendimiento según parámetros del filtro \emph{blur}}
 
@@ -63,9 +63,9 @@
             En cada una de las instancias consideradas, se midió el tiempo de ejecución. Esto se hizo, al igual que en el experimento anterior, mediante la instrucción \texttt{RDTSC} de la arquitectura \emph{x86-64}, repitiendo 20 veces cada medición y calculando luego el tiempo promedio entre estos resultados.
             
         \subsubsection*{Hipótesis}
-            % Se conjetura que, a medida que el valor del radio $r$ se incrementa, el tiempo de ejecución en las dos implementaciones aumentará, y que lo hará de manera cuadrática con respecto al incremento en $r$. Esto se debe a que la complejidad temporal de cada ejecución del ciclo principal del algoritmo depende del tamaño de la matriz de convolución, que es $(2r + 1) \times (2r + 1) \times 4$, es decir, es cuadrático en el valor de $r$.
+             Se conjetura que, a medida que el valor del radio $r$ se incrementa, el tiempo de ejecución en las dos implementaciones aumentará, y que lo hará de manera cuadrática con respecto al incremento en $r$. Esto se debe a que la complejidad temporal de cada ejecución del ciclo principal del algoritmo depende del tamaño de la matriz de convolución, que es $(2r + 1) \times (2r + 1) \times 4$, es decir, es cuadrático en el valor de $r$.
 
-            % Debido a que el valor del sigma es utilizado solamente para realizar un cálculo por cada posición de la matriz de convolución, se estima que modificar este valor no alterará el tiempo de ejecución.
+             Debido a que el valor del sigma es utilizado solamente para realizar un cálculo por cada posición de la matriz de convolución, se estima que modificar este valor no alterará el tiempo de ejecución.
 
         \subsubsection*{Resultados obtenidos y discusión}
             \noindent{} \begin{minipage}{\textwidth}
@@ -80,24 +80,22 @@
                 \end{center}
             \end{minipage}
 
-            % Se puede observar en los gráficos que a medida que los $r$ aumenta, también lo hace el tiempo de ejecución. En este sentido, se pudo confirmar la hipótesis. Sin embargo, si se dividen los valores del tiempo de ejecución por su correspondiente $r^2$, se comprueba que la relación no es lineal; es decir, el tiempo de ejecución no varía cuadráticamente con el valor de $r$.
+             Se puede observar en los gráficos que a medida que los $r$ aumenta, también lo hace el tiempo de ejecución. En este sentido, se pudo confirmar la hipótesis. Sin embargo, si se dividen los valores del tiempo de ejecución por su correspondiente $r^2$, se comprueba que la relación no es lineal; es decir, el tiempo de ejecución no varía cuadráticamente con el valor de $r$.
 
-            % Como se había previsto en la hipótesis, la variación del $\sigma$ no afecta el tiempo de ejecución del algoritmo, tanto en lenguaje ensamblador como en C. Puede observarse que, para valores de $\sigma$ menores que 1, el tiempo de ejecución es notoriamente mayor. Este es un comportamiento inesperado, que sería interesante estudiar posteriormente.
+            Como se había previsto en la hipótesis, la variación del $\sigma$ no afecta el tiempo de ejecución del algoritmo, tanto en lenguaje ensamblador como en C. Puede observarse que, para valores de $\sigma$ menores que 1, el tiempo de ejecución es notoriamente mayor. Este es un comportamiento inesperado, que sería interesante estudiar posteriormente.
 
     \subsection{Experimento 3: Peso de llamados a función}
 
         \subsubsection*{Presentación}
-            Al realizar este experimento, se buscó descubrir cuál es el peso que tienen en el rendimiento de los diversos algoritmos los llamados a función. Para este fin se utilizó la técnica de \emph{inlining}, que consiste en tomar el código principal y reemplazar los llamados a función por el mismo código de la función. De esta manera, se buscó evaluar la 
-
-            % Otras de las pruebas consiste en comparar los tiempos de ejecución de diferentes implementaciones de los filtros en lenguaje ensamblador. Nos interesa medir el peso que tienen en el tiempo de ejecución los llamados a funciones auxiliares. Para esto, queremos comparar el rendimiento de una implementación que utiliza llamados a estas funciones, con el de otra que tiene todas las instrucciones necesarias en el mismo bloque de código (sin utilizar esas funciones auxiliares).
+            Al realizar este experimento, se buscó descubrir cuál es el peso que tienen en el rendimiento de los diversos algoritmos los llamados a función. Para este fin se utilizó la técnica de \emph{inlining}, que consiste en tomar el código principal y reemplazar los llamados a función por el mismo código de la función. De esta manera, se buscó evaluar la utilidad y el beneficio de estos llamados a funciones auxiliares. 
 
         \subsubsection*{Metodología, datos y parámetros del experimento}
             Al igual que en los dos experimentos anteriores, el tiempo de ejecución se tomó utilizando la instrucción \texttt{RDTSC} de la arquitectura \emph{x86-64}, repitiendo 20 veces cada medición y calculando luego el tiempo promedio.
-            % En particular, se consideraron la versión en lenguaje C de \emph{diff}, a la que se le reemplazaron macros de preprocesador utilizadas para realizar operaciones aritméticas por llamados a función, y la implementación en ensamblador de \emph{blur}, con la que se hizo el proceso opuesto, eliminando los llamados a funciones auxiliares y colocando todo el código directamente en el cuerpo de la función principal.
-            % En este experimento el ancho de las imágenes utilizadas como parámetro se encuentran en un rango entre 24 y 1800 píxeles. Además, para el filtro \emph{blur}, se utilizó $r = 15$ y $\sigma = 5$.
+             En particular, se consideraron la versión en lenguaje C de \emph{diff}, a la que se le reemplazaron macros de preprocesador utilizadas para realizar operaciones aritméticas por llamados a función, y la implementación en ensamblador de \emph{blur}, con la que se hizo el proceso opuesto, eliminando los llamados a funciones auxiliares y colocando todo el código directamente en el cuerpo de la función principal.
+             En este experimento el ancho de las imágenes utilizadas como parámetro se encuentran en un rango entre 24 y 1800 píxeles. Además, para el filtro \emph{blur}, se utilizó $r = 15$ y $\sigma = 5$.
 
         \subsubsection*{Hipótesis}
-            % Creemos que la versión del código implementada en lenguaje ensamblador que no realiza llamados a funciones va a tener un mejor rendimiento, ya que se evita el overhead que producen estos llamados.
+             Creemos que la versión del código implementada que no realiza llamados a funciones va a tener un mejor rendimiento, ya que se evita el overhead que producen estos llamados.
 
         \subsubsection*{Resultados obtenidos y discusión}
 
@@ -121,8 +119,8 @@
                 \end{center}
             \end{minipage}
 
-            % Como muestran los gráficos de la implementación en C, los algoritmos que hacen llamados a otras funciones tienen un mayor tiempo de ejecución que las que no los hacen. Esto se debe a que cada vez que se hace un llamado a función, en necesario modificar la pila, manteniéndola alineada y guardando los registros que se deben preservar según la convención C y fueron utilizados a lo largo de la función.
+            Como muestran los gráficos de la implementación en C, los algoritmos que hacen llamados a otras funciones tienen un mayor tiempo de ejecución que las que no los hacen. Esto se debe a que cada vez que se hace un llamado a función, en necesario modificar la pila, manteniéndola alineada y guardando los registros que se deben preservar según la convención C y fueron utilizados a lo largo de la función.
 
-            % En lenguaje ensamblador, cuando implementamos el algoritmo sin el llamado a la función auxiliar, sigue siendo necesario acceder a la pila ya que hay que reutilizar registros que se tienen que mantener para la convención C. Por esto, seguimos haciendo accesos a memoria. Una vez que la accedemos es muy posible que en la caché se encuentren los siguientes accesos a realizar. Entonces, la diferencia entre accederla pocas veces o algunas más es muy pequeña, ya que el acceso a memoria caché no es muy caro.
+            En lenguaje ensamblador, cuando implementamos el algoritmo sin el llamado a la función auxiliar, sigue siendo necesario acceder a la pila ya que hay que reutilizar registros que se tienen que mantener para la convención C. Estos registros son R11 y R13. Eliminarlos implicaría que los cálculos necesarios para poder realizar el filtro no se puedan llevar a cabo. Por esto, seguimos haciendo accesos a memoria. Una vez que la accedemos es muy posible que en la caché se encuentren los siguientes accesos a realizar. Entonces, la diferencia entre accederla pocas veces o algunas más es muy pequeña, ya que el acceso a memoria caché no es muy caro.
 
-            % Posiblemente, si se reformulara por completo la estructura del algoritmo y la manera en que se utilizan los registros, podría lograrse una implementación en lenguaje ensamblador que saque una ventaja más considerable. Sin embargo, esto representaría una labor muy costosa, y hay que tener en cuenta que un código que no realiza llamadas a funciones auxiliares es más difícil de mantener y menos legible, por lo que la ganancia obtenida en rendimiento sería probablemente muy pequeña en relación con las desventajas que se ocasionarían.
+            Posiblemente, si se reformulara por completo la estructura del algoritmo y la manera en que se utilizan los registros, podría lograrse una implementación en lenguaje ensamblador que saque una ventaja más considerable. Sin embargo, esto representaría una labor muy costosa, y hay que tener en cuenta que un código que no realiza llamadas a funciones auxiliares es más difícil de mantener y menos legible, por lo que la ganancia obtenida en rendimiento sería probablemente muy pequeña en relación con las desventajas que se ocasionarían.
